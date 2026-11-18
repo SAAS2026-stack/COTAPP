@@ -1,0 +1,2083 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cotizador de Ruta Casanare</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Estilos personalizados para inputs numéricos */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            opacity: 1;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+            /* Con la cotización abierta se imprime únicamente el documento */
+            body.quote-open > *:not(#quote-modal) {
+                display: none !important;
+            }
+            body.quote-open #quote-modal {
+                position: static !important;
+                background: white !important;
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+            body.quote-open #quote-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            body.quote-open #quote-sheet tr {
+                break-inside: avoid;
+            }
+            @page { margin: 14mm; }
+        }
+    
+        body { color: #1e293b; }
+</style>
+<div class="text-slate-800 antialiased pb-12">
+
+    <!-- Notificación Toast (reemplaza alert) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium no-print">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <span id="toast-message">Resumen copiado al portapapeles</span>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl shadow-inner">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-tight">Planificador de Validación de Autoclaves</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Ruta Casanare: Yopal • Orocué • Sácama • La Salina</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 no-print">
+                <button onclick="resetDefaults()" class="px-3.5 py-2 text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition flex items-center gap-1.5">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    Restablecer
+                </button>
+                <button onclick="copySummary()" class="px-3.5 py-2 text-xs sm:text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow transition flex items-center gap-1.5">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    Copiar Resumen
+                </button>
+                <button onclick="openQuote()" class="px-3.5 py-2 text-xs sm:text-sm font-medium text-slate-900 bg-white hover:bg-slate-100 rounded-lg shadow transition flex items-center gap-1.5">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    Cotización
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
+            
+            <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN (7 columnas) -->
+            <div class="lg:col-span-7 space-y-6 no-print">
+
+                <!-- 1. SECCIÓN DE INGRESOS / HONORARIOS + VIÁTICOS Y HOSPEDAJE RECONOCIDOS -->
+                <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-sm">1</span>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-900">Ingresos del Viaje (Honorarios + Viáticos + Hotel)</h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            Rubros pagados
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                        <!-- Tarifa por Municipio -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Valor Validación por Municipio (COP)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                <input type="number" id="feePerCity" value="350000" step="10000" min="0" oninput="calculate()"
+                                    class="w-full pl-8 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                            <span class="block text-[11px] text-slate-500 mt-1">Hospitales: Orocué, Sácama y La Salina</span>
+                        </div>
+
+                        <!-- Municipios a visitar -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <span class="block text-xs font-bold text-slate-700 mb-2">Hospitales / Municipios Incluidos</span>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label id="card-city-orocue" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
+                                    <input type="checkbox" id="city-orocue" checked onchange="toggleCityStyle('orocue'); calculate()" class="sr-only">
+                                    <span class="text-xs font-bold text-slate-900">Orocué</span>
+                                    <span class="text-[10px] text-emerald-700 font-medium">Día 1</span>
+                                </label>
+                                <label id="card-city-sacama" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
+                                    <input type="checkbox" id="city-sacama" checked onchange="toggleCityStyle('sacama'); calculate()" class="sr-only">
+                                    <span class="text-xs font-bold text-slate-900">Sácama</span>
+                                    <span class="text-[10px] text-emerald-700 font-medium">Día 2</span>
+                                </label>
+                                <label id="card-city-salina" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
+                                    <input type="checkbox" id="city-salina" checked onchange="toggleCityStyle('salina'); calculate()" class="sr-only">
+                                    <span class="text-xs font-bold text-slate-900">La Salina</span>
+                                    <span class="text-[10px] text-emerald-700 font-medium">Día 2</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Viáticos y Hospedaje Reconocidos (Ingresos) -->
+                    <div class="border-t border-slate-100 pt-4 space-y-3">
+                        <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Viáticos, Hospedaje y Transporte Reconocidos por la Empresa (Ingresos)</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Viáticos Reconocidos -->
+                            <div id="inc-perdiem-box" class="bg-emerald-50/40 p-3.5 rounded-xl border border-emerald-200/80 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="incPerDiemEnabled" checked onchange="toggleIncomeAddon('perdiem'); calculate()" class="h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                        <span class="text-xs font-bold text-slate-800">Viáticos Reconocidos</span>
+                                    </label>
+                                    <span class="text-xs font-bold text-emerald-700" id="inc-perdiem-subtotal">$ 120.000</span>
+                                </div>
+                                <div id="inc-perdiem-inputs" class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Valor / Día</span>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="incPerDiemRate" value="60000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Días</span>
+                                        <select id="incPerDiemDays" onchange="calculate()"
+                                            class="w-full px-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                            <option value="1">1 día</option>
+                                            <option value="2" selected>2 días</option>
+                                            <option value="3">3 días</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hospedaje Reconocido -->
+                            <div id="inc-hotel-box" class="bg-emerald-50/40 p-3.5 rounded-xl border border-emerald-200/80 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="incHotelEnabled" checked onchange="toggleIncomeAddon('hotel'); calculate()" class="h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                        <span class="text-xs font-bold text-slate-800">Hospedaje Reconocido</span>
+                                    </label>
+                                    <span class="text-xs font-bold text-emerald-700" id="inc-hotel-subtotal">$ 60.000</span>
+                                </div>
+                                <div id="inc-hotel-inputs" class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Valor / Noche</span>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="incHotelRate" value="60000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Noches</span>
+                                        <select id="incHotelNights" onchange="calculate()"
+                                            class="w-full px-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                            <option value="0">0 noches</option>
+                                            <option value="1" selected>1 noche</option>
+                                            <option value="2">2 noches</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transporte / Conductor Reembolsable (Nuevo) -->
+                            <div id="inc-transport-box" class="bg-emerald-50/40 p-3.5 rounded-xl border border-emerald-200/80 transition-colors sm:col-span-2 lg:col-span-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="incTransportEnabled" onchange="toggleIncomeAddon('transport'); calculate()" class="h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                        <span class="text-xs font-bold text-slate-800">Sumar Conductor / Alquiler a Ingresos</span>
+                                    </label>
+                                    <span class="text-xs font-bold text-emerald-700" id="inc-transport-subtotal">$ 0</span>
+                                </div>
+                                <div id="inc-transport-inputs" class="space-y-1 opacity-40 pointer-events-none">
+                                    <span class="block text-[10px] text-slate-500">Suma el costo de la camioneta con conductor o del vehículo alquilado en los días donde no se use bus.</span>
+                                </div>
+                            </div>
+
+                            <!-- Pasajes de Bus Reembolsables (solo si el día usa bus) -->
+                            <div id="inc-bus-box" class="bg-emerald-50/40 p-3.5 rounded-xl border border-emerald-200/80 transition-colors sm:col-span-2 lg:col-span-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="incBusEnabled" checked onchange="toggleIncomeAddon('bus'); calculate()" class="h-4 w-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                                        <span class="text-xs font-bold text-slate-800">Sumar Pasajes de Bus a Ingresos</span>
+                                    </label>
+                                    <span class="text-xs font-bold text-emerald-700" id="inc-bus-subtotal">$ 90.000</span>
+                                </div>
+                                <div id="inc-bus-inputs" class="space-y-1">
+                                    <span class="block text-[10px] text-slate-500" id="inc-bus-hint">Se suman solo los días en que el transporte sea Bus de Línea (Día 1, Día 2 o ambos).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Ingresos Resumen -->
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between bg-emerald-50/60 p-3 rounded-xl border border-emerald-200/60">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-900 block">TOTAL INGRESOS BRUTOS DEL VIAJE</span>
+                            <span class="text-[11px] text-emerald-700" id="headerIncomeBreakdown">Validaciones: $ 1.050.000 + Viáticos/Hotel: $ 180.000</span>
+                        </div>
+                        <span class="text-lg sm:text-xl font-extrabold text-emerald-800" id="headerGrossIncome">$ 1.230.000</span>
+                    </div>
+                </section>
+
+                <!-- 2. SECCIÓN DE TRANSPORTE POR DÍA / TRAYECTO -->
+                <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-100 text-blue-700 font-bold text-sm">2</span>
+                            <div>
+                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Modalidad de Transporte por Día / Trayecto</h2>
+                                <p class="text-xs text-slate-500">Combina libremente bus, camioneta con conductor o alquiler en cada jornada</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 self-start sm:self-auto">
+                            Configuración Independiente
+                        </span>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- DÍA 1: RUTA OROCUÉ                                        -->
+                    <!-- ========================================================= -->
+                    <div class="rounded-2xl border-2 border-blue-100 bg-blue-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-extrabold tracking-wide uppercase">Día 1</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base">Ruta Orocué (Yopal ↔ Orocué)</h3>
+                            </div>
+                            <span class="text-xs font-bold text-blue-700 bg-blue-100/80 px-2.5 py-1 rounded-lg" id="d1-badge-total">
+                                Transporte + Gasolina: $ 90.000
+                            </span>
+                        </div>
+
+                        <!-- Selector de modalidad Día 1 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(1, 'bus')" id="d1-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-blue-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-blue-600 text-white" id="d1-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes i/v</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(1, 'driver')" id="d1-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-blue-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d1-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(1, 'rental')" id="d1-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-blue-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d1-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 1 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D1: Bus -->
+                            <div id="d1-config-bus" class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus Yopal ↔ Orocué (Ida y Vuelta)</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d1-busPrice" value="90000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D1: Camioneta con conductor -->
+                            <div id="d1-config-driver" class="hidden space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (Día 1)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d1-btn-driver-common" onclick="setDayDriverMode(1, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-blue-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d1-btn-driver-custom" onclick="setDayDriverMode(1, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d1-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común Orocué (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d1-driverCommonPrice" value="400000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d1-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50/70 p-3 rounded-lg border border-blue-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-blue-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d1-driverCustomLabel" value="Acuerdo Don Pedro" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-blue-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-blue-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d1-driverCustomPrice" value="250000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-blue-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d1-driverFuelIncluded" onchange="toggleDayDriverFuel(1); calculate()" class="h-4 w-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d1-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina (~364 km):</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d1-driverFuelPrice" value="65000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D1: Vehículo Alquilado -->
+                            <div id="d1-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d1-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible Orocué (~364 km)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d1-rentalFuel" value="65000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- DÍA 2: RUTA NORTE (SÁCAMA Y LA SALINA)                    -->
+                    <!-- ========================================================= -->
+                    <div class="rounded-2xl border-2 border-indigo-100 bg-indigo-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-extrabold tracking-wide uppercase">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base">Ruta Norte (Yopal → Sácama → La Salina → Yopal)</h3>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-700 bg-indigo-100/80 px-2.5 py-1 rounded-lg" id="d2-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Selector de modalidad Día 2 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(2, 'bus')" id="d2-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-indigo-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d2-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes circuito</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(2, 'driver')" id="d2-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-indigo-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-indigo-600 text-white" id="d2-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(2, 'rental')" id="d2-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-indigo-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d2-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 2 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d2-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus Circuito Norte (Sácama - La Salina - Yopal)</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d2-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d2-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (Día 2 - Alta montaña)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d2-btn-driver-common" onclick="setDayDriverMode(2, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-indigo-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d2-btn-driver-custom" onclick="setDayDriverMode(2, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d2-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común Ruta Norte (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d2-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d2-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-indigo-50/70 p-3 rounded-lg border border-indigo-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-indigo-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d2-driverCustomLabel" value="Camioneta 4x4 conocida" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-indigo-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-indigo-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d2-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-indigo-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d2-driverFuelIncluded" onchange="toggleDayDriverFuel(2); calculate()" class="h-4 w-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d2-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina (~466 km):</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d2-driverFuelPrice" value="85000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d2-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d2-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible Norte (~466 km)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d2-rentalFuel" value="85000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. GASTOS REALES DE ALIMENTACIÓN, HOSPEDAJE E IMPREVISTOS -->
+                <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-sm">3</span>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-900">Gastos Reales del Viaje (Egresos)</h2>
+                        </div>
+                        <span class="text-xs text-slate-500">Consumo efectivo</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Gasto Real Alimentación -->
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
+                                <i data-lucide="utensils" class="w-3.5 h-3.5 text-amber-600"></i>
+                                Gasto Real Alimentación
+                            </label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Valor / Día</span>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                        <input type="number" id="perDiemRate" value="60000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-amber-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Días de viaje</span>
+                                    <select id="perDiemDays" onchange="calculate()"
+                                        class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-amber-500 outline-none">
+                                        <option value="1">1 día</option>
+                                        <option value="2" selected>2 días</option>
+                                        <option value="3">3 días</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hospedaje -->
+                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
+                                <i data-lucide="bed-double" class="w-3.5 h-3.5 text-indigo-600"></i>
+                                Hospedaje (Ruta Norte)
+                            </label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Valor / Noche</span>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                        <input type="number" id="hotelRate" value="60000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Noches</span>
+                                    <select id="hotelNights" onchange="calculate()"
+                                        class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
+                                        <option value="0">0 noches</option>
+                                        <option value="1" selected>1 noche</option>
+                                        <option value="2">2 noches</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imprevistos / Peajes / Otros -->
+                        <div class="sm:col-span-2 bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-slate-600"></i>
+                                    Otros Gastos / Imprevistos / Peajes (Opcional)
+                                </label>
+                                <span class="text-[11px] text-slate-500">Agrega un colchón para imprevistos en carretera si lo deseas</span>
+                            </div>
+                            <div class="relative sm:w-48">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-semibold">$</span>
+                                <input type="number" id="otherCosts" value="0" step="5000" min="0" oninput="calculate()"
+                                    class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-slate-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. CRONOGRAMA LOGÍSTICO DE REFERENCIA (COLAPSABLE) -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                    <button type="button" onclick="toggleSchedule()" class="w-full px-5 sm:px-6 py-4 flex items-center justify-between text-left hover:bg-slate-50 transition">
+                        <div class="flex items-center gap-2.5">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
+                            <span class="font-bold text-sm sm:text-base text-slate-900">Ver Cronograma Sugerido y Tiempos de Atención</span>
+                        </div>
+                        <i data-lucide="chevron-down" id="schedule-chevron" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div id="schedule-content" class="hidden px-5 sm:px-6 pb-5 pt-2 border-t border-slate-100 space-y-4 text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Día 1 -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-bold text-blue-700">Día 1: Ruta Orocué</span>
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-semibold">~364 km i/v</span>
+                                </div>
+                                <ul class="space-y-1.5 text-xs text-slate-600">
+                                    <li><strong>05:00 AM:</strong> Salida desde Yopal hacia Orocué (~4h 30m).</li>
+                                    <li><strong>09:30 AM:</strong> Validación autoclave Hospital Orocué (3 a 4h).</li>
+                                    <li><strong>01:30 PM:</strong> Almuerzo y retorno a Yopal (llegada ~6:30 PM).</li>
+                                </ul>
+                            </div>
+                            <!-- Día 2 -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-bold text-indigo-700">Día 2: Circuito Norte</span>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-semibold">~466 km total</span>
+                                </div>
+                                <ul class="space-y-1.5 text-xs text-slate-600">
+                                    <li><strong>04:00 AM:</strong> Yopal a Sácama (~4h 20m) • Atención 09:00 AM (3h).</li>
+                                    <li><strong>12:30 PM:</strong> Desplazamiento Sácama a La Salina (~1h 40m).</li>
+                                    <li><strong>02:30 PM:</strong> Validación La Salina (2-3h) • Noche en norte y retorno (~6h).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: RESUMEN FINANCIERO Y FACTURA (5 columnas) -->
+            <div class="lg:col-span-5">
+                <div class="sticky top-24 space-y-5">
+                    
+                    <!-- Tarjeta Principal de Balance -->
+                    <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-xl print-shadow-none">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Balance de la Operación</span>
+                                <h2 class="text-lg font-bold text-white mt-0.5">Resumen Financiero del Viaje</h2>
+                            </div>
+                            <span id="badge-margin" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                Margen: 35%
+                            </span>
+                        </div>
+
+                        <!-- KPIs Principales -->
+                        <div class="grid grid-cols-2 gap-3 mb-5">
+                            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+                                <span class="block text-xs text-slate-400">Total Ingresos Viaje</span>
+                                <span id="kpi-income" class="block text-lg sm:text-xl font-extrabold text-emerald-400 mt-1">$ 1.230.000</span>
+                                <span id="kpi-cities-count" class="block text-[11px] text-slate-400 mt-0.5">3 municipios + viáticos/hotel</span>
+                            </div>
+                            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+                                <span class="block text-xs text-slate-400">Costo Total del Viaje</span>
+                                <span id="kpi-cost" class="block text-lg sm:text-xl font-extrabold text-rose-400 mt-1">$ 780.000</span>
+                                <span id="kpi-transport-label" class="block text-[11px] text-slate-400 mt-0.5 truncate">Camioneta + conductor</span>
+                            </div>
+                        </div>
+
+                        <!-- Utilidad Neta Destacada -->
+                        <div id="net-profit-box" class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl p-4 shadow-inner">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="block text-xs font-semibold text-emerald-100 uppercase tracking-wider">Ganancia Neta Libre</span>
+                                    <span class="block text-[11px] text-emerald-100/80">Ingresos menos costos operativos del viaje</span>
+                                </div>
+                                <span id="kpi-profit" class="text-2xl sm:text-3xl font-black text-white">$ 270.000</span>
+                            </div>
+                        </div>
+
+                        <!-- Barra Visual de Proporción -->
+                        <div class="mt-5">
+                            <div class="flex justify-between text-xs text-slate-400 mb-1.5">
+                                <span>Distribución del Ingreso Bruto</span>
+                                <span id="bar-ratio-text">74% Costos / 26% Utilidad</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden flex">
+                                <div id="bar-cost" class="bg-rose-500 h-full transition-all duration-300" style="width: 74%"></div>
+                                <div id="bar-profit" class="bg-emerald-400 h-full transition-all duration-300" style="width: 26%"></div>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2 text-[11px] text-slate-400">
+                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Costos Viaje</span>
+                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Utilidad Neta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desglose Detallado tipo Liquidación -->
+                    <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 print-shadow-none">
+                        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 pb-2 border-b border-slate-100">
+                            Desglose de Ingresos y Costos
+                        </h3>
+
+                        <!-- Bloque de Ingresos -->
+                    <div class="bg-emerald-50/60 rounded-xl p-3 mb-4 border border-emerald-200/70 space-y-1.5 text-xs">
+                        <div class="flex justify-between text-slate-700">
+                            <span id="inc-detail-cities-label">Validación Autoclaves (3 municipios):</span>
+                            <span class="font-bold text-slate-900" id="inc-detail-cities-val">$ 1.050.000</span>
+                        </div>
+                        <div class="flex justify-between text-slate-700">
+                            <span id="inc-detail-perdiem-label">Viáticos reconocidos (2 días):</span>
+                            <span class="font-bold text-slate-900" id="inc-detail-perdiem-val">$ 120.000</span>
+                        </div>
+                        <div class="flex justify-between text-slate-700">
+                            <span id="inc-detail-hotel-label">Hospedaje reconocido (1 noche):</span>
+                            <span class="font-bold text-slate-900" id="inc-detail-hotel-val">$ 60.000</span>
+                        </div>
+                        <div id="inc-detail-bus-row" class="hidden flex justify-between text-slate-700">
+                            <span id="inc-detail-bus-label">Pasajes de bus reembolsables:</span>
+                            <span class="font-bold text-slate-900" id="inc-detail-bus-val">$ 0</span>
+                        </div>
+                        <div id="inc-detail-transport-row" class="hidden flex justify-between text-slate-700 pt-1 border-t border-emerald-100">
+                            <span id="inc-detail-transport-label">Transporte / Conductor reembolsable:</span>
+                            <span class="font-bold text-emerald-800" id="inc-detail-transport-val">$ 0</span>
+                        </div>
+                        <div class="flex justify-between pt-1.5 border-t border-emerald-200 text-sm font-extrabold text-emerald-800">
+                            <span>TOTAL INGRESOS</span>
+                            <span id="inc-detail-total">$ 1.230.000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2.5 text-sm">
+                            <!-- Transporte Día 1 -->
+                            <div class="flex items-start justify-between py-1">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d1-title">Día 1 (Orocué): Bus de Línea</span>
+                                    <span class="text-xs text-blue-600 font-medium block" id="detail-d1-sub">Pasajes ida y vuelta</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d1-val">$ 90.000</span>
+                            </div>
+
+                            <!-- Transporte Día 2 -->
+                            <div class="flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d2-title">Día 2 (Norte): Camioneta + conductor</span>
+                                    <span class="text-xs text-indigo-600 font-medium block" id="detail-d2-sub">Tarifa Común</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d2-val">$ 500.000</span>
+                            </div>
+
+                            <!-- Combustible Total -->
+                            <div class="flex items-center justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800">Combustible Total</span>
+                                    <span class="text-xs text-slate-500 block" id="detail-fuel-sub">Día 1 ($ 0) + Día 2 ($ 85.000)</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-fuel-val">$ 85.000</span>
+                            </div>
+
+                            <!-- Viáticos -->
+                            <div class="flex items-center justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800">Viáticos (Alimentación)</span>
+                                    <span class="text-xs text-slate-500 block" id="detail-perdiem-sub">2 días × $ 60.000</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-perdiem-val">$ 120.000</span>
+                            </div>
+
+                            <!-- Hospedaje -->
+                            <div class="flex items-center justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800">Hospedaje</span>
+                                    <span class="text-xs text-slate-500 block" id="detail-hotel-sub">1 noche × $ 60.000</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-hotel-val">$ 60.000</span>
+                            </div>
+
+                            <!-- Otros -->
+                            <div id="detail-other-row" class="hidden flex items-center justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800">Otros / Imprevistos</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-other-val">$ 0</span>
+                            </div>
+
+                            <!-- Total Costos -->
+                            <div class="flex items-center justify-between pt-3 mt-2 border-t-2 border-slate-200">
+                                <span class="font-bold text-slate-900">TOTAL COSTOS DEL VIAJE</span>
+                                <span class="text-base font-extrabold text-rose-600" id="detail-total-cost">$ 780.000</span>
+                            </div>
+                        </div>
+
+                        <!-- Nota aclaratoria -->
+                        <div class="mt-4 bg-slate-50 p-3 rounded-xl border border-slate-200/70 text-xs text-slate-600 flex items-start gap-2">
+                            <i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
+                            <p>Los costos operativos del viaje se descuentan directamente del total de ingresos recibidos (<strong id="note-gross">$ 1.230.000</strong>: honorarios por validación + viáticos y hospedaje reconocidos).</p>
+                        </div>
+
+                        <!-- Constructor: Guardar Plan para Comparar -->
+                        <div class="mt-5 pt-4 border-t border-slate-200 no-print">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Guardar configuración actual en el comparador
+                            </label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="text" id="newPlanName" placeholder="Nombre opcional (ej: Plan Mixto Ideal)..."
+                                    class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+                                <button type="button" onclick="saveCurrentPlan()"
+                                    class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow transition flex items-center justify-center gap-1.5 shrink-0">
+                                    <i data-lucide="bookmark-plus" class="w-4 h-4 text-emerald-400"></i>
+                                    Guardar Plan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- SECCIÓN INFERIOR: COMPARADOR DE PLANES GUARDADOS          -->
+        <!-- ========================================================= -->
+        <section class="mt-10 bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 print-shadow-none">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-100 text-indigo-700 p-2.5 rounded-xl">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Comparador de Planes de Viaje</h2>
+                        <p class="text-xs text-slate-500">Contrasta distintas combinaciones de transporte por día para elegir la más rentable y práctica</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 no-print">
+                    <span id="plans-counter-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                        3 planes guardados
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tabla Responsiva de Comparación -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+                <table class="w-full text-left border-collapse min-w-[820px]">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('name')">Plan / Estrategia <span data-sort-ind="name"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d1')">Día 1 (Orocué) <span data-sort-ind="d1"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d2')">Día 2 (Sácama / Salina) <span data-sort-ind="d2"></span></th>
+                            <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('income')">Ingresos <span data-sort-ind="income"></span></th>
+                            <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('cost')">Gastos Viaje <span data-sort-ind="cost"></span></th>
+                            <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('profit')">Utilidad Neta <span data-sort-ind="profit"></span></th>
+                            <th class="py-3.5 px-4 text-center no-print">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plans-table-body" class="divide-y divide-slate-100 text-sm">
+                        <!-- Filas renderizadas dinámicamente por JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="plans-empty-state" class="hidden text-center py-10">
+                <p class="text-sm text-slate-500">No tienes planes guardados aún. Configura los días 1 y 2 arriba y haz clic en <strong>"Guardar Plan"</strong>.</p>
+            </div>
+
+            <!-- Controles de orden -->
+            <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500 no-print">
+                <span>Ordenar por:</span>
+                <select id="sortSelect" onchange="setSortFromSelect()" class="px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="order">Orden de guardado</option>
+                    <option value="profit">Utilidad neta</option>
+                    <option value="margin">Margen %</option>
+                    <option value="income">Ingresos</option>
+                    <option value="cost">Gastos del viaje</option>
+                    <option value="d1">Costo Día 1</option>
+                    <option value="d2">Costo Día 2</option>
+                    <option value="name">Nombre</option>
+                </select>
+                <button type="button" onclick="toggleSortDir()" id="sortDirBtn" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-slate-800 transition">Descendente ↓</button>
+                <span class="text-slate-400">También puedes hacer clic en los encabezados de la tabla.</span>
+            </div>
+
+            <!-- Gráficas comparativas -->
+            <div id="plans-charts" class="hidden mt-8 space-y-8">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">Ingresos vs. Gastos vs. Utilidad</h3>
+                    <p class="text-xs text-slate-500 mb-3">Compara el resultado económico de cada plan</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-600 mb-3">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Ingresos</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Gastos</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Utilidad</span>
+                    </div>
+                    <div id="chart-overview" class="space-y-4"></div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">Composición de Gastos por Plan</h3>
+                    <p class="text-xs text-slate-500 mb-3">Dónde se va el dinero en cada alternativa</p>
+                    <div class="flex flex-wrap items-center gap-4 text-[11px] text-slate-600 mb-3">
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Transporte</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Combustible</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> Alimentación</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> Hospedaje</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> Otros</span>
+                    </div>
+                    <div id="chart-costs" class="space-y-3"></div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">Diferencia de Utilidad frente al Mejor Plan</h3>
+                    <p class="text-xs text-slate-500 mb-3">Cuánto dejas de ganar (o ganas de más) comparado con el plan más rentable</p>
+                    <div id="chart-diff" class="space-y-3"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- COTIZACIÓN FORMAL PARA EL CLIENTE (vista previa + impresión) -->
+    <!-- ========================================================= -->
+    <div id="quote-modal" class="hidden fixed inset-0 z-40 bg-slate-900/70 overflow-y-auto p-3 sm:p-6">
+        <div class="max-w-5xl mx-auto">
+            <!-- Barra de acciones -->
+            <div class="no-print flex flex-wrap items-center justify-between gap-2 mb-4">
+                <button type="button" onclick="closeQuote()" class="px-3.5 py-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition">← Volver al cotizador</button>
+                <button type="button" onclick="copyQuoteText()" class="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow transition">Copiar cotización como texto</button>
+            </div>
+
+            <!-- Datos editables de la cotización -->
+            <div class="no-print bg-white rounded-2xl p-4 sm:p-5 mb-4 shadow">
+                <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">Datos de la cotización</h2>
+                <p class="text-xs text-slate-500 mb-3">Completa los datos; el documento de abajo se actualiza al instante. Tus datos de emisor y condiciones quedan guardados en este navegador.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <label class="block"><span class="font-bold text-slate-700">Emisor (nombre / razón social)</span>
+                        <input type="text" id="q-issuer" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <label class="block"><span class="font-bold text-slate-700">NIT / Cédula del emisor</span>
+                        <input type="text" id="q-issuer-id" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <label class="block"><span class="font-bold text-slate-700">Contacto del emisor (tel. / correo)</span>
+                        <input type="text" id="q-issuer-contact" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+
+                    <label class="block"><span class="font-bold text-slate-700">Cliente</span>
+                        <input type="text" id="q-client" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <label class="block"><span class="font-bold text-slate-700">NIT del cliente</span>
+                        <input type="text" id="q-client-id" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <label class="block"><span class="font-bold text-slate-700">Atención a (persona de contacto)</span>
+                        <input type="text" id="q-client-contact" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+
+                    <label class="block"><span class="font-bold text-slate-700">N.º de cotización</span>
+                        <input type="text" id="q-number" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <label class="block"><span class="font-bold text-slate-700">Fecha</span>
+                        <input type="date" id="q-date" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="block"><span class="font-bold text-slate-700">Validez (días)</span>
+                            <input type="number" id="q-validity" value="15" min="1" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                        <label class="block"><span class="font-bold text-slate-700">IVA (%)</span>
+                            <input type="number" id="q-iva" value="0" min="0" max="100" step="1" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"></label>
+                    </div>
+
+                    <label class="block sm:col-span-3"><span class="font-bold text-slate-700">Descripción del servicio</span>
+                        <textarea id="q-scope" rows="2" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">Servicio de validación de autoclaves en las instituciones de salud relacionadas a continuación.</textarea></label>
+                    <label class="block sm:col-span-3"><span class="font-bold text-slate-700">Condiciones comerciales / observaciones</span>
+                        <textarea id="q-conditions" rows="3" oninput="renderQuote()" class="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">Valores expresados en pesos colombianos (COP).
+Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></label>
+                </div>
+            </div>
+
+            <!-- Documento -->
+            <div id="quote-sheet" class="bg-white rounded-2xl shadow-xl p-6 sm:p-10 text-slate-900"></div>
+        </div>
+    </div>
+
+    <script>
+        // Estado global de la aplicación por día
+        let state = {
+            day1: {
+                mode: 'bus', // 'bus' | 'driver' | 'rental'
+                driverPriceMode: 'common' // 'common' | 'custom'
+            },
+            day2: {
+                mode: 'driver', // 'bus' | 'driver' | 'rental'
+                driverPriceMode: 'common' // 'common' | 'custom'
+            },
+            savedPlans: []
+        };
+
+        // Formateador de moneda colombiana (COP)
+        const formatCOP = (value) => {
+            const num = Math.round(Number(value) || 0);
+            const sign = num < 0 ? '- ' : '';
+            return sign + '$ ' + Math.abs(num).toLocaleString('es-CO');
+        };
+
+        // Inicializar iconos Lucide
+        // Si la librería de iconos no carga, la app sigue funcionando sin iconos
+        try { if (window.lucide) lucide.createIcons(); } catch (e) { console.warn('Iconos no disponibles', e); }
+
+        // Helper seguro para obtener el valor de un elemento input si existe
+        function getInputValue(id, fallback = 0) {
+            const el = document.getElementById(id);
+            return el ? (el.value !== '' ? Number(el.value) : fallback) : fallback;
+        }
+
+        function getElementChecked(id, fallback = false) {
+            const el = document.getElementById(id);
+            return el ? el.checked : fallback;
+        }
+
+        function getInputValueString(id, fallback = '') {
+            const el = document.getElementById(id);
+            return el ? el.value : fallback;
+        }
+
+        // Habilitar/deshabilitar viáticos u hospedaje en ingresos
+        function toggleIncomeAddon(type) {
+            const isPerDiem = type === 'perdiem';
+            const isHotel = type === 'hotel';
+            const ids = {
+                perdiem: ['incPerDiemEnabled', 'inc-perdiem-box', 'inc-perdiem-inputs'],
+                hotel: ['incHotelEnabled', 'inc-hotel-box', 'inc-hotel-inputs'],
+                transport: ['incTransportEnabled', 'inc-transport-box', 'inc-transport-inputs'],
+                bus: ['incBusEnabled', 'inc-bus-box', 'inc-bus-inputs']
+            }[type];
+
+            const checkbox = document.getElementById(ids[0]);
+            const box = document.getElementById(ids[1]);
+            const inputs = document.getElementById(ids[2]);
+
+            if (checkbox.checked) {
+                box.classList.remove('bg-slate-50', 'border-slate-200', 'opacity-70');
+                box.classList.add('bg-emerald-50/40', 'border-emerald-200/80');
+                if (inputs) inputs.classList.remove('opacity-40', 'pointer-events-none');
+            } else {
+                box.classList.remove('bg-emerald-50/40', 'border-emerald-200/80');
+                box.classList.add('bg-slate-50', 'border-slate-200', 'opacity-70');
+                if (inputs) inputs.classList.add('opacity-40', 'pointer-events-none');
+            }
+            calculate();
+        }
+
+        // Cambiar estilo de tarjeta de municipio al marcar/desmarcar
+        function toggleCityStyle(cityKey) {
+            const checkbox = document.getElementById(`city-${cityKey}`);
+            const card = document.getElementById(`card-city-${cityKey}`);
+            if (checkbox.checked) {
+                card.classList.remove('border-slate-200', 'bg-white', 'opacity-60');
+                card.classList.add('border-emerald-500', 'bg-emerald-50/30');
+            } else {
+                card.classList.remove('border-emerald-500', 'bg-emerald-50/30');
+                card.classList.add('border-slate-200', 'bg-white', 'opacity-60');
+            }
+        }
+
+        // Seleccionar modalidad de transporte para un día específico (1 o 2)
+        function selectDayTransport(day, mode) {
+            state[`day${day}`].mode = mode;
+            const modes = ['bus', 'driver', 'rental'];
+            const accentColor = day === 1 ? 'blue' : 'indigo';
+
+            modes.forEach(m => {
+                const btn = document.getElementById(`d${day}-btn-${m}`);
+                const icon = document.getElementById(`d${day}-icon-${m}`);
+                const config = document.getElementById(`d${day}-config-${m}`);
+
+                if (m === mode) {
+                    btn.className = `flex items-center gap-2.5 p-3 rounded-xl border-2 border-${accentColor}-600 bg-white shadow-sm text-left transition`;
+                    icon.className = `p-2 rounded-lg bg-${accentColor}-600 text-white`;
+                    config.classList.remove('hidden');
+                } else {
+                    btn.className = `flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-${accentColor}-300 text-left transition`;
+                    icon.className = `p-2 rounded-lg bg-slate-100 text-slate-600`;
+                    config.classList.add('hidden');
+                }
+            });
+
+            calculate();
+        }
+
+        // Cambiar entre tarifa común y personalizada para un día específico
+        function setDayDriverMode(day, mode) {
+            state[`day${day}`].driverPriceMode = mode;
+            const accentColor = day === 1 ? 'blue' : 'indigo';
+            const btnCommon = document.getElementById(`d${day}-btn-driver-common`);
+            const btnCustom = document.getElementById(`d${day}-btn-driver-custom`);
+            const boxCommon = document.getElementById(`d${day}-driver-common-box`);
+            const boxCustom = document.getElementById(`d${day}-driver-custom-box`);
+
+            if (mode === 'common') {
+                btnCommon.className = `px-2.5 py-1 text-xs font-bold rounded-md bg-white text-${accentColor}-700 shadow-sm transition`;
+                btnCustom.className = `px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition`;
+                boxCommon.classList.remove('hidden');
+                boxCustom.classList.add('hidden');
+            } else {
+                btnCustom.className = `px-2.5 py-1 text-xs font-bold rounded-md bg-white text-${accentColor}-700 shadow-sm transition`;
+                btnCommon.className = `px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition`;
+                boxCustom.classList.remove('hidden');
+                boxCommon.classList.add('hidden');
+            }
+
+            calculate();
+        }
+
+        // Mostrar/ocultar input de gasolina por día cuando la tarifa del conductor la incluye
+        function toggleDayDriverFuel(day) {
+            const included = document.getElementById(`d${day}-driverFuelIncluded`).checked;
+            const fuelBox = document.getElementById(`d${day}-driver-fuel-box`);
+            if (included) {
+                fuelBox.classList.add('opacity-40', 'pointer-events-none');
+            } else {
+                fuelBox.classList.remove('opacity-40', 'pointer-events-none');
+            }
+        }
+
+        // Mostrar/ocultar cronograma
+        function toggleSchedule() {
+            const content = document.getElementById('schedule-content');
+            const chevron = document.getElementById('schedule-chevron');
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        // Helper para calcular los valores de un día (1 o 2)
+        function computeDayMetrics(day) {
+            const mode = state[`day${day}`].mode;
+            const driverPriceMode = state[`day${day}`].driverPriceMode;
+            let transportCost = 0;
+            let fuelCost = 0;
+            let title = '';
+            let sub = '';
+            let shortName = '';
+
+            if (mode === 'bus') {
+                transportCost = Math.max(0, getInputValue(`d${day}-busPrice`, 0));
+                fuelCost = 0;
+                title = 'Bus de Línea';
+                sub = day === 1 ? 'Pasajes ida y vuelta' : 'Pasajes circuito norte';
+                shortName = 'Bus de Línea';
+            } else if (mode === 'driver') {
+                title = 'Camioneta + conductor';
+                if (driverPriceMode === 'common') {
+                    transportCost = Math.max(0, getInputValue(`d${day}-driverCommonPrice`, 0));
+                    sub = 'Tarifa Común';
+                    shortName = 'Camioneta (Común)';
+                } else {
+                    transportCost = Math.max(0, getInputValue(`d${day}-driverCustomPrice`, 0));
+                    const lbl = getInputValueString(`d${day}-driverCustomLabel`, 'Personalizada').trim() || 'Personalizada';
+                    sub = `Etiqueta: "${lbl}"`;
+                    shortName = `Camioneta (${lbl})`;
+                }
+                const fuelInc = getElementChecked(`d${day}-driverFuelIncluded`, false);
+                if (fuelInc) {
+                    fuelCost = 0;
+                    sub += ' • Gasolina inc.';
+                } else {
+                    fuelCost = Math.max(0, getInputValue(`d${day}-driverFuelPrice`, 0));
+                }
+            } else if (mode === 'rental') {
+                transportCost = Math.max(0, getInputValue(`d${day}-rentalRate`, 0));
+                fuelCost = Math.max(0, getInputValue(`d${day}-rentalFuel`, 0));
+                title = 'Vehículo Alquilado';
+                sub = '1 día sin conductor';
+                shortName = 'Vehículo Alquilado';
+            }
+
+            return {
+                mode,
+                driverPriceMode,
+                transportCost,
+                fuelCost,
+                dayTotal: transportCost + fuelCost,
+                title,
+                sub,
+                shortName
+            };
+        }
+
+        // Cálculo principal en tiempo real
+        function calculate() {
+            // Si los elementos clave del DOM aún no existen, salir sin error
+            if (!document.getElementById('feePerCity')) return { grossIncome: 0, validationIncome: 0, incPerDiemTotal: 0, incHotelTotal: 0, incTransportTotal: 0, d1: { dayTotal: 0, shortName: '' }, d2: { dayTotal: 0, shortName: '' }, totalFuelCost: 0, totalPerDiem: 0, totalHotel: 0, otherCosts: 0, totalTripCost: 0, netProfit: 0, marginPercent: 0 };
+
+            // 1. Ingresos (Validaciones + Viáticos reconocidos + Hospedaje reconocido)
+            const feePerCity = Math.max(0, getInputValue('feePerCity', 0));
+            const activeCities = ['orocue', 'sacama', 'salina'].filter(c => getElementChecked(`city-${c}`, true));
+            const citiesCount = activeCities.length;
+            const validationIncome = feePerCity * citiesCount;
+
+            const incPerDiemEnabled = getElementChecked('incPerDiemEnabled', true);
+            const incPerDiemRate = Math.max(0, getInputValue('incPerDiemRate', 0));
+            const incPerDiemDays = Number(getInputValueString('incPerDiemDays', '2')) || 0;
+            const incPerDiemTotal = incPerDiemEnabled ? (incPerDiemRate * incPerDiemDays) : 0;
+
+            const incHotelEnabled = getElementChecked('incHotelEnabled', true);
+            const incHotelRate = Math.max(0, getInputValue('incHotelRate', 0));
+            const incHotelNights = Number(getInputValueString('incHotelNights', '1')) || 0;
+            const incHotelTotal = incHotelEnabled ? (incHotelRate * incHotelNights) : 0;
+
+            // 2. Transporte y Combustible por Día
+            const d1 = computeDayMetrics(1);
+            const d2 = computeDayMetrics(2);
+            const totalTransportCost = d1.transportCost + d2.transportCost;
+            const totalFuelCost = d1.fuelCost + d2.fuelCost;
+
+            // Transporte Reembolsable en Ingresos (si está activo)
+            const incTransportEnabled = getElementChecked('incTransportEnabled', false);
+            // Sumamos el costo de transporte (y gasolina si aplica) o solo transporte de camioneta/alquiler según se requiera
+            // Solo días con camioneta/alquiler (los pasajes de bus se manejan aparte)
+            const nonBusTransport = (d1.mode !== 'bus' ? d1.transportCost : 0) + (d2.mode !== 'bus' ? d2.transportCost : 0);
+            const incTransportTotal = incTransportEnabled ? nonBusTransport : 0;
+
+            // Pasajes de bus reembolsables: solo los días cuya modalidad sea bus
+            const incBusEnabled = getElementChecked('incBusEnabled', true);
+            const busDays = [];
+            let busFareTotal = 0;
+            if (d1.mode === 'bus') { busDays.push('Día 1'); busFareTotal += d1.transportCost; }
+            if (d2.mode === 'bus') { busDays.push('Día 2'); busFareTotal += d2.transportCost; }
+            const incBusTotal = incBusEnabled ? busFareTotal : 0;
+
+            const elBusSub = document.getElementById('inc-bus-subtotal');
+            if (elBusSub) elBusSub.textContent = formatCOP(incBusTotal);
+            const elBusHint = document.getElementById('inc-bus-hint');
+            if (elBusHint) elBusHint.textContent = busDays.length
+                ? `Pasajes incluidos: ${busDays.join(' + ')} (${formatCOP(busFareTotal)}).`
+                : 'No hay días con Bus de Línea seleccionado; no se suma nada.';
+
+            const reimbursementsTotal = incPerDiemTotal + incHotelTotal + incTransportTotal + incBusTotal;
+            const grossIncome = validationIncome + reimbursementsTotal;
+
+            const elPerDiemSubElem = document.getElementById('inc-perdiem-subtotal');
+            if (elPerDiemSubElem) elPerDiemSubElem.textContent = formatCOP(incPerDiemTotal);
+            const elHotelSubElem = document.getElementById('inc-hotel-subtotal');
+            if (elHotelSubElem) elHotelSubElem.textContent = formatCOP(incHotelTotal);
+            const elTransportSubElem = document.getElementById('inc-transport-subtotal');
+            if (elTransportSubElem) elTransportSubElem.textContent = formatCOP(incTransportTotal);
+
+            const elHeaderGross = document.getElementById('headerGrossIncome');
+            if (elHeaderGross) elHeaderGross.textContent = formatCOP(grossIncome);
+            const elHeaderBreakdown = document.getElementById('headerIncomeBreakdown');
+            if (elHeaderBreakdown) elHeaderBreakdown.textContent = `Validaciones: ${formatCOP(validationIncome)} + Viáticos/Hotel/Transp: ${formatCOP(reimbursementsTotal)}`;
+
+            const elD1Badge = document.getElementById('d1-badge-total');
+            if (elD1Badge) elD1Badge.textContent = `Transporte + Gasolina: ${formatCOP(d1.dayTotal)}`;
+            const elD2Badge = document.getElementById('d2-badge-total');
+            if (elD2Badge) elD2Badge.textContent = `Transporte + Gasolina: ${formatCOP(d2.dayTotal)}`;
+
+            // 3. Gastos reales de Alimentación, Hospedaje y Otros
+            const perDiemRate = Math.max(0, getInputValue('perDiemRate', 0));
+            const perDiemDays = Number(getInputValueString('perDiemDays', '2')) || 0;
+            const totalPerDiem = perDiemRate * perDiemDays;
+
+            const hotelRate = Math.max(0, getInputValue('hotelRate', 0));
+            const hotelNights = Number(getInputValueString('hotelNights', '1')) || 0;
+            const totalHotel = hotelRate * hotelNights;
+
+            const otherCosts = Math.max(0, getInputValue('otherCosts', 0));
+
+            // 4. Totales y Utilidad
+            const totalTripCost = totalTransportCost + totalFuelCost + totalPerDiem + totalHotel + otherCosts;
+            const netProfit = grossIncome - totalTripCost;
+            const marginPercent = grossIncome > 0 ? Math.round((netProfit / grossIncome) * 100) : 0;
+
+            // Actualizar KPIs si existen
+            const elKpiIncome = document.getElementById('kpi-income');
+            if (elKpiIncome) elKpiIncome.textContent = formatCOP(grossIncome);
+            const elKpiCities = document.getElementById('kpi-cities-count');
+            if (elKpiCities) elKpiCities.textContent = `${citiesCount} ${citiesCount === 1 ? 'municipio' : 'municipios'} + viáticos/hotel`;
+            const elKpiCost = document.getElementById('kpi-cost');
+            if (elKpiCost) elKpiCost.textContent = formatCOP(totalTripCost);
+            const elKpiTransportLabel = document.getElementById('kpi-transport-label');
+            if (elKpiTransportLabel) elKpiTransportLabel.textContent = `D1: ${d1.shortName} • D2: ${d2.shortName}`;
+            const elKpiProfit = document.getElementById('kpi-profit');
+            if (elKpiProfit) elKpiProfit.textContent = formatCOP(netProfit);
+            const elNoteGross = document.getElementById('note-gross');
+            if (elNoteGross) elNoteGross.textContent = formatCOP(grossIncome);
+
+            // Actualizar Desglose de Ingresos en tarjeta derecha
+            const elIncCitiesLabel = document.getElementById('inc-detail-cities-label');
+            if (elIncCitiesLabel) elIncCitiesLabel.textContent = `Validación Autoclaves (${citiesCount} ${citiesCount === 1 ? 'municipio' : 'municipios'}):`;
+            const elIncCitiesVal = document.getElementById('inc-detail-cities-val');
+            if (elIncCitiesVal) elIncCitiesVal.textContent = formatCOP(validationIncome);
+            const elIncPerDiemLabel = document.getElementById('inc-detail-perdiem-label');
+            if (elIncPerDiemLabel) elIncPerDiemLabel.textContent = incPerDiemEnabled ? `Viáticos reconocidos (${incPerDiemDays} ${incPerDiemDays === 1 ? 'día' : 'días'}):` : 'Viáticos reconocidos (No incluidos):';
+            const elIncPerDiemVal = document.getElementById('inc-detail-perdiem-val');
+            if (elIncPerDiemVal) elIncPerDiemVal.textContent = formatCOP(incPerDiemTotal);
+            const elIncHotelLabel = document.getElementById('inc-detail-hotel-label');
+            if (elIncHotelLabel) elIncHotelLabel.textContent = incHotelEnabled ? `Hospedaje reconocido (${incHotelNights} ${incHotelNights === 1 ? 'noche' : 'noches'}):` : 'Hospedaje reconocido (No incluido):';
+            const elIncHotelVal = document.getElementById('inc-detail-hotel-val');
+            if (elIncHotelVal) elIncHotelVal.textContent = formatCOP(incHotelTotal);
+
+            const busRow = document.getElementById('inc-detail-bus-row');
+            if (busRow) {
+                if (incBusEnabled && busFareTotal > 0) {
+                    busRow.classList.remove('hidden');
+                    const elBusLabel = document.getElementById('inc-detail-bus-label');
+                    if (elBusLabel) elBusLabel.textContent = `Pasajes de bus reembolsables (${busDays.join(' + ')}):`;
+                    const elBusVal = document.getElementById('inc-detail-bus-val');
+                    if (elBusVal) elBusVal.textContent = formatCOP(incBusTotal);
+                } else {
+                    busRow.classList.add('hidden');
+                }
+            }
+
+            const transportRow = document.getElementById('inc-detail-transport-row');
+            if (transportRow) {
+                if (incTransportEnabled) {
+                    transportRow.classList.remove('hidden');
+                    const elTransVal = document.getElementById('inc-detail-transport-val');
+                    if (elTransVal) elTransVal.textContent = formatCOP(incTransportTotal);
+                } else {
+                    transportRow.classList.add('hidden');
+                }
+            }
+
+            const elIncDetailTotal = document.getElementById('inc-detail-total');
+            if (elIncDetailTotal) elIncDetailTotal.textContent = formatCOP(grossIncome);
+
+            // Estilo de caja de utilidad
+            const profitBox = document.getElementById('net-profit-box');
+            const badgeMargin = document.getElementById('badge-margin');
+            if (profitBox && badgeMargin) {
+                if (netProfit >= 0) {
+                    profitBox.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl p-4 shadow-inner transition-colors';
+                    badgeMargin.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                    badgeMargin.textContent = `Margen: ${marginPercent}%`;
+                } else {
+                    profitBox.className = 'bg-gradient-to-r from-rose-600 to-red-700 rounded-xl p-4 shadow-inner transition-colors';
+                    badgeMargin.className = 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                    badgeMargin.textContent = `Déficit: ${marginPercent}%`;
+                }
+            }
+
+            // Actualizar Barra Visual
+            let costPct = 0;
+            let profitPct = 0;
+            if (grossIncome > 0) {
+                costPct = Math.min(100, Math.max(0, Math.round((totalTripCost / grossIncome) * 100)));
+                profitPct = Math.max(0, 100 - costPct);
+            } else if (totalTripCost > 0) {
+                costPct = 100;
+            }
+            const barCost = document.getElementById('bar-cost');
+            if (barCost) barCost.style.width = `${costPct}%`;
+            const barProfit = document.getElementById('bar-profit');
+            if (barProfit) barProfit.style.width = `${profitPct}%`;
+            const barRatioText = document.getElementById('bar-ratio-text');
+            if (barRatioText) barRatioText.textContent = `${costPct}% Costos / ${profitPct}% Utilidad`;
+
+            // Actualizar Tabla de Desglose
+            const elD1Title = document.getElementById('detail-d1-title');
+            if (elD1Title) elD1Title.textContent = `Día 1 (Orocué): ${d1.title}`;
+            const elD1Sub = document.getElementById('detail-d1-sub');
+            if (elD1Sub) elD1Sub.textContent = d1.sub;
+            const elD1Val = document.getElementById('detail-d1-val');
+            if (elD1Val) elD1Val.textContent = formatCOP(d1.transportCost);
+
+            const elD2Title = document.getElementById('detail-d2-title');
+            if (elD2Title) elD2Title.textContent = `Día 2 (Norte): ${d2.title}`;
+            const elD2Sub = document.getElementById('detail-d2-sub');
+            if (elD2Sub) elD2Sub.textContent = d2.sub;
+            const elD2Val = document.getElementById('detail-d2-val');
+            if (elD2Val) elD2Val.textContent = formatCOP(d2.transportCost);
+
+            const elFuelSub = document.getElementById('detail-fuel-sub');
+            if (elFuelSub) elFuelSub.textContent = `Día 1 (${formatCOP(d1.fuelCost)}) + Día 2 (${formatCOP(d2.fuelCost)})`;
+            const elFuelVal = document.getElementById('detail-fuel-val');
+            if (elFuelVal) elFuelVal.textContent = formatCOP(totalFuelCost);
+
+            const elPerDiemSub = document.getElementById('detail-perdiem-sub');
+            if (elPerDiemSub) elPerDiemSub.textContent = `${perDiemDays} ${perDiemDays === 1 ? 'día' : 'días'} × ${formatCOP(perDiemRate)}`;
+            const elPerDiemVal = document.getElementById('detail-perdiem-val');
+            if (elPerDiemVal) elPerDiemVal.textContent = formatCOP(totalPerDiem);
+
+            const elHotelSub = document.getElementById('detail-hotel-sub');
+            if (elHotelSub) elHotelSub.textContent = `${hotelNights} ${hotelNights === 1 ? 'noche' : 'noches'} × ${formatCOP(hotelRate)}`;
+            const elHotelVal = document.getElementById('detail-hotel-val');
+            if (elHotelVal) elHotelVal.textContent = formatCOP(totalHotel);
+
+            const otherRow = document.getElementById('detail-other-row');
+            if (otherRow) {
+                if (otherCosts > 0) {
+                    otherRow.classList.remove('hidden');
+                    const elOtherVal = document.getElementById('detail-other-val');
+                    if (elOtherVal) elOtherVal.textContent = formatCOP(otherCosts);
+                } else {
+                    otherRow.classList.add('hidden');
+                }
+            }
+
+            const elTotalCost = document.getElementById('detail-total-cost');
+            if (elTotalCost) elTotalCost.textContent = formatCOP(totalTripCost);
+
+            return {
+                grossIncome,
+                validationIncome,
+                incPerDiemTotal,
+                incHotelTotal,
+                incTransportTotal,
+                incBusTotal,
+                d1,
+                d2,
+                totalFuelCost,
+                totalPerDiem,
+                totalHotel,
+                otherCosts,
+                totalTripCost,
+                netProfit,
+                marginPercent
+            };
+        }
+
+        // Capturar el snapshot completo del formulario actual
+        function captureCurrentSnapshot(customName) {
+            const metrics = calculate();
+            const defaultName = `Plan ${String.fromCharCode(65 + (state.savedPlans.length % 26))}: D1 ${metrics.d1.shortName} + D2 ${metrics.d2.shortName}`;
+            const planName = (customName || '').trim() || defaultName;
+
+            return {
+                id: 'plan-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                name: planName,
+                config: {
+                    feePerCity: getInputValue('feePerCity', 350000),
+                    cities: {
+                        orocue: getElementChecked('city-orocue', true),
+                        sacama: getElementChecked('city-sacama', true),
+                        salina: getElementChecked('city-salina', true)
+                    },
+                    incPerDiemEnabled: getElementChecked('incPerDiemEnabled', true),
+                    incPerDiemRate: getInputValue('incPerDiemRate', 60000),
+                    incPerDiemDays: getInputValueString('incPerDiemDays', '2'),
+                    incHotelEnabled: getElementChecked('incHotelEnabled', true),
+                    incHotelRate: getInputValue('incHotelRate', 60000),
+                    incHotelNights: getInputValueString('incHotelNights', '1'),
+                    incTransportEnabled: getElementChecked('incTransportEnabled', false),
+                    incBusEnabled: getElementChecked('incBusEnabled', true),
+                    day1: {
+                        mode: state.day1.mode,
+                        driverPriceMode: state.day1.driverPriceMode,
+                        busPrice: getInputValue('d1-busPrice', 90000),
+                        driverCommonPrice: getInputValue('d1-driverCommonPrice', 400000),
+                        driverCustomLabel: getInputValueString('d1-driverCustomLabel', ''),
+                        driverCustomPrice: getInputValue('d1-driverCustomPrice', 250000),
+                        driverFuelIncluded: getElementChecked('d1-driverFuelIncluded', false),
+                        driverFuelPrice: getInputValue('d1-driverFuelPrice', 65000),
+                        rentalRate: getInputValue('d1-rentalRate', 180000),
+                        rentalFuel: getInputValue('d1-rentalFuel', 65000)
+                    },
+                    day2: {
+                        mode: state.day2.mode,
+                        driverPriceMode: state.day2.driverPriceMode,
+                        busPrice: getInputValue('d2-busPrice', 95000),
+                        driverCommonPrice: getInputValue('d2-driverCommonPrice', 500000),
+                        driverCustomLabel: getInputValueString('d2-driverCustomLabel', ''),
+                        driverCustomPrice: getInputValue('d2-driverCustomPrice', 320000),
+                        driverFuelIncluded: getElementChecked('d2-driverFuelIncluded', false),
+                        driverFuelPrice: getInputValue('d2-driverFuelPrice', 85000),
+                        rentalRate: getInputValue('d2-rentalRate', 180000),
+                        rentalFuel: getInputValue('d2-rentalFuel', 85000)
+                    },
+                    perDiemRate: getInputValue('perDiemRate', 60000),
+                    perDiemDays: getInputValueString('perDiemDays', '2'),
+                    hotelRate: getInputValue('hotelRate', 60000),
+                    hotelNights: getInputValueString('hotelNights', '1'),
+                    otherCosts: getInputValue('otherCosts', 0)
+                },
+                summary: metrics
+            };
+        }
+
+        // Cargar un plan guardado al editor
+        function loadPlanToEditor(planId) {
+            const plan = state.savedPlans.find(p => p.id === planId);
+            if (!plan) return;
+            const c = plan.config;
+
+            document.getElementById('feePerCity').value = c.feePerCity;
+            ['orocue', 'sacama', 'salina'].forEach(city => {
+                document.getElementById(`city-${city}`).checked = c.cities[city];
+                toggleCityStyle(city);
+            });
+
+            document.getElementById('incPerDiemEnabled').checked = c.incPerDiemEnabled;
+            document.getElementById('incPerDiemRate').value = c.incPerDiemRate;
+            document.getElementById('incPerDiemDays').value = c.incPerDiemDays;
+            toggleIncomeAddon('perdiem');
+
+            document.getElementById('incHotelEnabled').checked = c.incHotelEnabled;
+            document.getElementById('incHotelRate').value = c.incHotelRate;
+            document.getElementById('incHotelNights').value = c.incHotelNights;
+            toggleIncomeAddon('hotel');
+
+            if (c.incTransportEnabled !== undefined) {
+                document.getElementById('incTransportEnabled').checked = c.incTransportEnabled;
+                toggleIncomeAddon('transport');
+            }
+
+            document.getElementById('incBusEnabled').checked = c.incBusEnabled !== undefined ? c.incBusEnabled : true;
+            toggleIncomeAddon('bus');
+
+            [1, 2].forEach(day => {
+                const dc = c[`day${day}`];
+                selectDayTransport(day, dc.mode);
+                setDayDriverMode(day, dc.driverPriceMode);
+                document.getElementById(`d${day}-busPrice`).value = dc.busPrice;
+                document.getElementById(`d${day}-driverCommonPrice`).value = dc.driverCommonPrice;
+                document.getElementById(`d${day}-driverCustomLabel`).value = dc.driverCustomLabel;
+                document.getElementById(`d${day}-driverCustomPrice`).value = dc.driverCustomPrice;
+                document.getElementById(`d${day}-driverFuelIncluded`).checked = dc.driverFuelIncluded;
+                toggleDayDriverFuel(day);
+                document.getElementById(`d${day}-driverFuelPrice`).value = dc.driverFuelPrice;
+                document.getElementById(`d${day}-rentalRate`).value = dc.rentalRate;
+                document.getElementById(`d${day}-rentalFuel`).value = dc.rentalFuel;
+            });
+
+            document.getElementById('perDiemRate').value = c.perDiemRate;
+            document.getElementById('perDiemDays').value = c.perDiemDays;
+            document.getElementById('hotelRate').value = c.hotelRate;
+            document.getElementById('hotelNights').value = c.hotelNights;
+            document.getElementById('otherCosts').value = c.otherCosts;
+
+            calculate();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast(`Plan "${plan.name}" cargado en el editor`);
+        }
+
+        // Restablecer valores por defecto
+        function resetDefaults() {
+            document.getElementById('feePerCity').value = 350000;
+            ['orocue', 'sacama', 'salina'].forEach(c => {
+                document.getElementById(`city-${c}`).checked = true;
+                toggleCityStyle(c);
+            });
+
+            document.getElementById('incPerDiemEnabled').checked = true;
+            document.getElementById('incPerDiemRate').value = 60000;
+            document.getElementById('incPerDiemDays').value = '2';
+            toggleIncomeAddon('perdiem');
+
+            document.getElementById('incHotelEnabled').checked = true;
+            document.getElementById('incHotelRate').value = 60000;
+            document.getElementById('incHotelNights').value = '1';
+            toggleIncomeAddon('hotel');
+
+            document.getElementById('incTransportEnabled').checked = false;
+            toggleIncomeAddon('transport');
+
+            document.getElementById('incBusEnabled').checked = true;
+            toggleIncomeAddon('bus');
+
+            // Día 1 defaults
+            selectDayTransport(1, 'bus');
+            setDayDriverMode(1, 'common');
+            document.getElementById('d1-busPrice').value = 90000;
+            document.getElementById('d1-driverCommonPrice').value = 400000;
+            document.getElementById('d1-driverCustomLabel').value = 'Acuerdo Don Pedro';
+            document.getElementById('d1-driverCustomPrice').value = 250000;
+            document.getElementById('d1-driverFuelIncluded').checked = false;
+            toggleDayDriverFuel(1);
+            document.getElementById('d1-driverFuelPrice').value = 65000;
+            document.getElementById('d1-rentalRate').value = 180000;
+            document.getElementById('d1-rentalFuel').value = 65000;
+
+            // Día 2 defaults
+            selectDayTransport(2, 'driver');
+            setDayDriverMode(2, 'common');
+            document.getElementById('d2-busPrice').value = 95000;
+            document.getElementById('d2-driverCommonPrice').value = 500000;
+            document.getElementById('d2-driverCustomLabel').value = 'Camioneta 4x4 conocida';
+            document.getElementById('d2-driverCustomPrice').value = 320000;
+            document.getElementById('d2-driverFuelIncluded').checked = false;
+            toggleDayDriverFuel(2);
+            document.getElementById('d2-driverFuelPrice').value = 85000;
+            document.getElementById('d2-rentalRate').value = 180000;
+            document.getElementById('d2-rentalFuel').value = 85000;
+
+            document.getElementById('perDiemRate').value = 60000;
+            document.getElementById('perDiemDays').value = '2';
+            document.getElementById('hotelRate').value = 60000;
+            document.getElementById('hotelNights').value = '1';
+            document.getElementById('otherCosts').value = 0;
+
+            calculate();
+            showToast('Valores restablecidos a la configuración inicial');
+        }
+
+        // Helper genérico para copiar al portapapeles
+        function copyToClipboardText(text, successMsg) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (err) {
+                showToast('No se pudo copiar el texto');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Copiar resumen actual al portapapeles
+        function copySummary() {
+            const m = calculate();
+
+            let transportIncText = (m.incBusTotal > 0 ? `• Pasajes de bus reconocidos: ${formatCOP(m.incBusTotal)}\n` : '') +
+                                   (m.incTransportTotal > 0 ? `• Transporte / Conductor reconocido: ${formatCOP(m.incTransportTotal)}\n` : '');
+
+            const text = `📋 *COTIZACIÓN RUTA VALIDACIÓN AUTOCLAVES - CASANARE*\n` +
+                         `*INGRESOS:*\n` +
+                         `• Validaciones: ${formatCOP(m.validationIncome)}\n` +
+                         `• Viáticos reconocidos: ${formatCOP(m.incPerDiemTotal)}\n` +
+                         `• Hospedaje reconocido: ${formatCOP(m.incHotelTotal)}\n` +
+                         transportIncText +
+                         `• *Total Ingresos:* ${formatCOP(m.grossIncome)}\n\n` +
+                         `*TRANSPORTE POR DÍA:*\n` +
+                         `• Día 1 (Orocué): ${m.d1.title} (${m.d1.sub}) — ${formatCOP(m.d1.transportCost)}\n` +
+                         `• Día 2 (Norte): ${m.d2.title} (${m.d2.sub}) — ${formatCOP(m.d2.transportCost)}\n` +
+                         `• Combustible Total: ${formatCOP(m.totalFuelCost)}\n\n` +
+                         `*OTROS GASTOS OPERATIVOS:*\n` +
+                         `• Alimentación real: ${formatCOP(m.totalPerDiem)}\n` +
+                         `• Hospedaje real: ${formatCOP(m.totalHotel)}\n` +
+                         `• *Total Costos Viaje:* ${formatCOP(m.totalTripCost)}\n` +
+                         `----------------------------------\n` +
+                         `💰 *UTILIDAD NETA LIBRE:* ${formatCOP(m.netProfit)} (Margen ${m.marginPercent}%)`;
+
+            copyToClipboardText(text, 'Resumen actual copiado al portapapeles');
+        }
+
+        // ---------- Cotización formal para el cliente ----------
+        const QUOTE_KEY = 'cotizador_quote_meta';
+        const QUOTE_SAVED_FIELDS = ['q-issuer', 'q-issuer-id', 'q-issuer-contact', 'q-validity', 'q-iva', 'q-scope', 'q-conditions'];
+        let quoteMetaLoaded = false;
+
+        function loadQuoteMeta() {
+            try {
+                const raw = localStorage.getItem(QUOTE_KEY);
+                if (!raw) return;
+                const data = JSON.parse(raw);
+                QUOTE_SAVED_FIELDS.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && data[id] !== undefined) el.value = data[id];
+                });
+            } catch (e) { /* sin almacenamiento disponible */ }
+        }
+
+        function saveQuoteMeta() {
+            try {
+                const data = {};
+                QUOTE_SAVED_FIELDS.forEach(id => { data[id] = document.getElementById(id).value; });
+                localStorage.setItem(QUOTE_KEY, JSON.stringify(data));
+            } catch (e) { /* sin almacenamiento disponible */ }
+        }
+
+        function openQuote() {
+            const pad = n => String(n).padStart(2, '0');
+            if (!quoteMetaLoaded) { loadQuoteMeta(); quoteMetaLoaded = true; }
+
+            const dateEl = document.getElementById('q-date');
+            const t = new Date();
+            const ymd = `${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())}`;
+            if (!dateEl.value) dateEl.value = ymd;
+            const numEl = document.getElementById('q-number');
+            if (!numEl.value) numEl.value = `COT-${ymd.replace(/-/g, '')}-001`;
+
+            document.getElementById('quote-modal').classList.remove('hidden');
+            document.body.classList.add('quote-open');
+            document.getElementById('quote-modal').scrollTop = 0;
+            renderQuote();
+        }
+
+        function closeQuote() {
+            document.getElementById('quote-modal').classList.add('hidden');
+            document.body.classList.remove('quote-open');
+        }
+
+        function copyQuoteText() {
+            const sheet = document.getElementById('quote-sheet');
+            const text = sheet ? sheet.innerText.replace(/\n{3,}/g, '\n\n').trim() : '';
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showToast('Cotización copiada. Pégala en WhatsApp o en un correo'))
+                    .catch(() => copyToClipboardText(text, 'Cotización copiada'));
+            } else {
+                copyToClipboardText(text, 'Cotización copiada');
+            }
+        }
+
+        function printQuote() {
+            try { window.print(); }
+            catch (e) { showToast('No se pudo abrir el diálogo de impresión'); }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && document.body.classList.contains('quote-open')) closeQuote();
+        });
+
+        function renderQuote() {
+            const sheet = document.getElementById('quote-sheet');
+            if (!sheet) return;
+            saveQuoteMeta();
+
+            const m = calculate();
+            const val = id => (document.getElementById(id) ? document.getElementById(id).value : '').trim();
+            const E = escapeHTML;
+
+            // Líneas de la cotización (solo lo que se le cobra al cliente)
+            const items = [];
+            const cities = [['orocue', 'Orocué'], ['sacama', 'Sácama'], ['salina', 'La Salina']]
+                .filter(([k]) => getElementChecked(`city-${k}`, true));
+            const fee = Math.max(0, getInputValue('feePerCity', 0));
+            cities.forEach(([, name]) => {
+                items.push({ desc: `Validación de autoclave — Hospital de ${name}`, qty: 1, unit: fee });
+            });
+
+            if (m.incPerDiemTotal > 0) {
+                const days = Number(getInputValueString('incPerDiemDays', '1')) || 1;
+                items.push({ desc: 'Viáticos de alimentación del personal técnico (por día)', qty: days, unit: m.incPerDiemTotal / days });
+            }
+            if (m.incHotelTotal > 0) {
+                const nights = Number(getInputValueString('incHotelNights', '1')) || 1;
+                items.push({ desc: 'Hospedaje del personal técnico (por noche)', qty: nights, unit: m.incHotelTotal / nights });
+            }
+            if (m.incBusTotal > 0) {
+                const dd = [];
+                if (m.d1.mode === 'bus') dd.push('Día 1');
+                if (m.d2.mode === 'bus') dd.push('Día 2');
+                items.push({ desc: `Transporte terrestre — pasajes de bus (${dd.join(' y ')})`, qty: 1, unit: m.incBusTotal });
+            }
+            if (m.incTransportTotal > 0) {
+                const dd = [];
+                if (m.d1.mode !== 'bus') dd.push('Día 1');
+                if (m.d2.mode !== 'bus') dd.push('Día 2');
+                items.push({ desc: `Transporte terrestre — vehículo (${dd.join(' y ')})`, qty: 1, unit: m.incTransportTotal });
+            }
+
+            const subtotal = items.reduce((acc, it) => acc + it.qty * it.unit, 0);
+            const ivaPct = Math.max(0, Number(val('q-iva')) || 0);
+            const ivaVal = Math.round(subtotal * ivaPct / 100);
+            const total = subtotal + ivaVal;
+
+            const dateVal = val('q-date');
+            const dateText = dateVal
+                ? new Date(dateVal + 'T00:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' })
+                : '';
+            const validity = Math.max(1, Number(val('q-validity')) || 15);
+            const conditions = val('q-conditions').split('\n').map(s => s.trim()).filter(Boolean);
+            const scope = val('q-scope');
+
+            const rows = items.map(it => `
+                <tr class="border-b border-slate-200">
+                    <td class="py-2.5 pr-3">${E(it.desc)}</td>
+                    <td class="py-2.5 px-3 text-center">${it.qty}</td>
+                    <td class="py-2.5 px-3 text-right whitespace-nowrap">${formatCOP(it.unit)}</td>
+                    <td class="py-2.5 pl-3 text-right font-semibold whitespace-nowrap">${formatCOP(it.qty * it.unit)}</td>
+                </tr>`).join('') || `
+                <tr><td colspan="4" class="py-6 text-center text-slate-400">Sin conceptos seleccionados.</td></tr>`;
+
+            sheet.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-5 border-b-2 border-slate-900">
+                    <div>
+                        <h1 class="text-xl font-extrabold tracking-tight">${E(val('q-issuer') || '(Nombre del emisor)')}</h1>
+                        ${val('q-issuer-id') ? `<p class="text-xs text-slate-600 mt-0.5">NIT / C.C. ${E(val('q-issuer-id'))}</p>` : ''}
+                        ${val('q-issuer-contact') ? `<p class="text-xs text-slate-600">${E(val('q-issuer-contact'))}</p>` : ''}
+                    </div>
+                    <div class="sm:text-right">
+                        <p class="text-2xl font-black tracking-wide text-slate-900">COTIZACIÓN</p>
+                        <p class="text-sm font-semibold text-slate-700">N.º ${E(val('q-number'))}</p>
+                        <p class="text-xs text-slate-600">${E(dateText)}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5 text-sm">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Presentada a</p>
+                        <p class="font-bold">${E(val('q-client') || '(Nombre del cliente)')}</p>
+                        ${val('q-client-id') ? `<p class="text-slate-600 text-xs">NIT ${E(val('q-client-id'))}</p>` : ''}
+                        ${val('q-client-contact') ? `<p class="text-slate-600 text-xs">Atn: ${E(val('q-client-contact'))}</p>` : ''}
+                    </div>
+                    <div class="sm:text-right">
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Validez de la oferta</p>
+                        <p class="font-semibold">${validity} días calendario</p>
+                    </div>
+                </div>
+
+                ${scope ? `<div class="mb-4 text-sm"><p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Objeto</p><p>${E(scope)}</p></div>` : ''}
+
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b-2 border-slate-900 text-[11px] uppercase tracking-wider text-slate-600">
+                            <th class="py-2 pr-3 text-left font-bold">Descripción</th>
+                            <th class="py-2 px-3 text-center font-bold">Cant.</th>
+                            <th class="py-2 px-3 text-right font-bold">Valor unitario</th>
+                            <th class="py-2 pl-3 text-right font-bold">Valor total</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+
+                <div class="flex justify-end mt-4">
+                    <div class="w-full sm:w-72 text-sm space-y-1.5">
+                        <div class="flex justify-between"><span class="text-slate-600">Subtotal</span><span class="font-semibold">${formatCOP(subtotal)}</span></div>
+                        ${ivaPct > 0 ? `<div class="flex justify-between"><span class="text-slate-600">IVA (${ivaPct}%)</span><span class="font-semibold">${formatCOP(ivaVal)}</span></div>` : ''}
+                        <div class="flex justify-between pt-2 border-t-2 border-slate-900 text-base font-extrabold"><span>TOTAL</span><span>${formatCOP(total)}</span></div>
+                    </div>
+                </div>
+
+                ${conditions.length ? `
+                <div class="mt-8 text-sm">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Condiciones</p>
+                    <ul class="list-disc pl-5 space-y-0.5 text-slate-700">${conditions.map(c => `<li>${E(c)}</li>`).join('')}</ul>
+                </div>` : ''}
+
+                <div class="mt-16 w-64 text-sm">
+                    <div class="border-t border-slate-900 pt-1.5">
+                        <p class="font-semibold">${E(val('q-issuer') || '(Nombre del emisor)')}</p>
+                        ${val('q-issuer-id') ? `<p class="text-xs text-slate-600">NIT / C.C. ${E(val('q-issuer-id'))}</p>` : ''}
+                    </div>
+                </div>`;
+        }
+
+        // Notificación toast
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-message');
+            if (!toast || !msg) return;
+            msg.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>"']/g, ch => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[ch]));
+        }
+
+        // Guardar la configuración actual como plan
+        function saveCurrentPlan() {
+            const input = document.getElementById('newPlanName');
+            const snapshot = captureCurrentSnapshot(input ? input.value : '');
+            state.savedPlans.push(snapshot);
+            if (input) input.value = '';
+            renderPlans();
+            showToast(`Plan "${snapshot.name}" guardado`);
+        }
+
+        function deletePlan(planId) {
+            state.savedPlans = state.savedPlans.filter(p => p.id !== planId);
+            renderPlans();
+            showToast('Plan eliminado');
+        }
+
+        // Dibujar la tabla del comparador
+        function renderPlans() {
+            const body = document.getElementById('plans-table-body');
+            const empty = document.getElementById('plans-empty-state');
+            const badge = document.getElementById('plans-counter-badge');
+            const plans = getSortedPlans();
+            if (!body) return;
+
+            if (badge) badge.textContent = `${plans.length} ${plans.length === 1 ? 'plan guardado' : 'planes guardados'}`;
+            if (empty) empty.classList.toggle('hidden', plans.length > 0);
+
+            const bestProfit = plans.length ? Math.max(...plans.map(p => p.summary.netProfit)) : null;
+
+            body.innerHTML = plans.map(p => {
+                const s = p.summary;
+                const isBest = plans.length > 1 && s.netProfit === bestProfit;
+                const profitClass = s.netProfit >= 0 ? 'text-emerald-700' : 'text-rose-600';
+                return `
+                    <tr class="${isBest ? 'bg-emerald-50/50' : ''}">
+                        <td class="py-3.5 px-4">
+                            <span class="font-bold text-slate-900">${escapeHTML(p.name)}</span>
+                            ${isBest ? '<span class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Más rentable</span>' : ''}
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-700">
+                            ${escapeHTML(s.d1.shortName)}
+                            <span class="block text-xs text-slate-500">${formatCOP(s.d1.dayTotal)}</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-slate-700">
+                            ${escapeHTML(s.d2.shortName)}
+                            <span class="block text-xs text-slate-500">${formatCOP(s.d2.dayTotal)}</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-right font-semibold text-slate-900">${formatCOP(s.grossIncome)}</td>
+                        <td class="py-3.5 px-4 text-right font-semibold text-slate-900">${formatCOP(s.totalTripCost)}</td>
+                        <td class="py-3.5 px-4 text-right font-extrabold ${profitClass}">
+                            ${formatCOP(s.netProfit)}
+                            <span class="block text-xs font-medium text-slate-500">Margen ${s.marginPercent}%</span>
+                        </td>
+                        <td class="py-3.5 px-4 text-center no-print whitespace-nowrap">
+                            <button type="button" onclick="loadPlanToEditor('${p.id}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-700 transition">Cargar</button>
+                            <button type="button" onclick="deletePlan('${p.id}')" class="ml-1 px-2.5 py-1 text-xs font-bold rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 transition">Eliminar</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            updateSortUI();
+            renderCharts(plans);
+        }
+
+        // ---------- Ordenamiento ----------
+        state.sortKey = 'order';
+        state.sortDir = 'desc';
+
+        function sortValue(p, key) {
+            const s = p.summary;
+            switch (key) {
+                case 'name': return p.name.toLowerCase();
+                case 'd1': return s.d1.dayTotal;
+                case 'd2': return s.d2.dayTotal;
+                case 'income': return s.grossIncome;
+                case 'cost': return s.totalTripCost;
+                case 'profit': return s.netProfit;
+                case 'margin': return s.marginPercent;
+                default: return 0;
+            }
+        }
+
+        function getSortedPlans() {
+            const list = state.savedPlans.slice();
+            if (state.sortKey === 'order') return list;
+            const dir = state.sortDir === 'asc' ? 1 : -1;
+            return list.sort((a, b) => {
+                const va = sortValue(a, state.sortKey);
+                const vb = sortValue(b, state.sortKey);
+                if (typeof va === 'string') return va.localeCompare(vb, 'es') * dir;
+                return (va - vb) * dir;
+            });
+        }
+
+        function setSort(key) {
+            if (state.sortKey === key) {
+                state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                state.sortKey = key;
+                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' ? 'asc' : 'desc';
+            }
+            renderPlans();
+        }
+
+        function setSortFromSelect() {
+            const key = document.getElementById('sortSelect').value;
+            state.sortKey = key;
+            if (key !== 'order') {
+                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' ? 'asc' : 'desc';
+            }
+            renderPlans();
+        }
+
+        function toggleSortDir() {
+            state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+            renderPlans();
+        }
+
+        function updateSortUI() {
+            const sel = document.getElementById('sortSelect');
+            if (sel) sel.value = state.sortKey;
+            const btn = document.getElementById('sortDirBtn');
+            if (btn) btn.textContent = state.sortDir === 'asc' ? 'Ascendente ↑' : 'Descendente ↓';
+            document.querySelectorAll('[data-sort-ind]').forEach(el => {
+                el.textContent = el.getAttribute('data-sort-ind') === state.sortKey
+                    ? (state.sortDir === 'asc' ? '▲' : '▼') : '';
+            });
+        }
+
+        // ---------- Gráficas ----------
+        function renderCharts(plans) {
+            const wrap = document.getElementById('plans-charts');
+            if (!wrap) return;
+            if (!plans.length) { wrap.classList.add('hidden'); return; }
+            wrap.classList.remove('hidden');
+
+            const bar = (label, value, max, colorClass) => {
+                const pct = max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
+                return `
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 text-[11px] text-slate-500 shrink-0">${label}</span>
+                        <div class="flex-1 h-5 bg-slate-100 rounded-md overflow-hidden">
+                            <div class="${colorClass} h-full rounded-md transition-all duration-300" style="width:${pct}%"></div>
+                        </div>
+                        <span class="w-28 text-right text-xs font-bold ${value < 0 ? 'text-rose-600' : 'text-slate-800'} shrink-0">${formatCOP(value)}</span>
+                    </div>`;
+            };
+
+            // 1. Ingresos vs gastos vs utilidad
+            const maxOverview = Math.max(...plans.map(p => Math.max(p.summary.grossIncome, p.summary.totalTripCost, p.summary.netProfit)), 1);
+            document.getElementById('chart-overview').innerHTML = plans.map(p => `
+                <div class="space-y-1">
+                    <span class="block text-xs font-bold text-slate-900">${escapeHTML(p.name)}</span>
+                    ${bar('Ingresos', p.summary.grossIncome, maxOverview, 'bg-emerald-500')}
+                    ${bar('Gastos', p.summary.totalTripCost, maxOverview, 'bg-rose-500')}
+                    ${bar('Utilidad', p.summary.netProfit, maxOverview, 'bg-blue-600')}
+                </div>`).join('');
+
+            // 2. Composición de gastos (barras apiladas)
+            const parts = p => {
+                const s = p.summary;
+                const transport = Math.max(0, s.totalTripCost - s.totalFuelCost - s.totalPerDiem - s.totalHotel - s.otherCosts);
+                return [
+                    ['Transporte', transport, 'bg-indigo-500'],
+                    ['Combustible', s.totalFuelCost, 'bg-amber-500'],
+                    ['Alimentación', s.totalPerDiem, 'bg-orange-400'],
+                    ['Hospedaje', s.totalHotel, 'bg-teal-500'],
+                    ['Otros', s.otherCosts, 'bg-slate-400']
+                ];
+            };
+            const maxCost = Math.max(...plans.map(p => p.summary.totalTripCost), 1);
+            document.getElementById('chart-costs').innerHTML = plans.map(p => {
+                const segs = parts(p).filter(x => x[1] > 0).map(([lbl, val, cls]) =>
+                    `<div class="${cls} h-full" style="width:${(val / maxCost) * 100}%" title="${lbl}: ${formatCOP(val)}"></div>`).join('');
+                const detail = parts(p).filter(x => x[1] > 0).map(([lbl, val]) => `${lbl} ${formatCOP(val)}`).join(' • ');
+                return `
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-bold text-slate-900">${escapeHTML(p.name)}</span>
+                            <span class="text-xs font-bold text-slate-800">${formatCOP(p.summary.totalTripCost)}</span>
+                        </div>
+                        <div class="w-full h-5 bg-slate-100 rounded-md overflow-hidden flex">${segs}</div>
+                        <span class="block text-[11px] text-slate-500 mt-1">${detail}</span>
+                    </div>`;
+            }).join('');
+
+            // 3. Diferencia de utilidad vs. el mejor plan
+            const best = Math.max(...plans.map(p => p.summary.netProfit));
+            const maxGap = Math.max(...plans.map(p => best - p.summary.netProfit), 1);
+            document.getElementById('chart-diff').innerHTML = plans.map(p => {
+                const gap = best - p.summary.netProfit;
+                const pct = (gap / maxGap) * 100;
+                return `
+                    <div class="flex items-center gap-2">
+                        <span class="w-40 sm:w-56 text-xs font-bold text-slate-900 truncate shrink-0" title="${escapeHTML(p.name)}">${escapeHTML(p.name)}</span>
+                        <div class="flex-1 h-5 bg-slate-100 rounded-md overflow-hidden">
+                            <div class="${gap === 0 ? 'bg-emerald-500' : 'bg-rose-400'} h-full rounded-md transition-all duration-300" style="width:${gap === 0 ? 100 : pct}%"></div>
+                        </div>
+                        <span class="w-32 text-right text-xs font-bold ${gap === 0 ? 'text-emerald-700' : 'text-rose-600'} shrink-0">${gap === 0 ? 'Mejor plan' : '- ' + formatCOP(gap).replace('$ ', '$ ')}</span>
+                    </div>`;
+            }).join('');
+        }
+
+        // Calcular al cargar para que los totales reflejen los valores iniciales
+        calculate();
+        renderPlans();
+    </script>
+</div>
+
+</body></html>
