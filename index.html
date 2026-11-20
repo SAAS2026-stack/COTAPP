@@ -1,9 +1,16 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Cotizador de Ruta Casanare</title>
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-<style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurador de Ruta y Validación de Autoclaves - Casanare</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
@@ -46,10 +53,9 @@
             }
             @page { margin: 14mm; }
         }
-    
-        body { color: #1e293b; }
-</style>
-<div class="text-slate-800 antialiased pb-12">
+    </style>
+</head>
+<body class="text-slate-800 antialiased pb-12">
 
     <!-- Notificación Toast (reemplaza alert) -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium no-print">
@@ -66,7 +72,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg sm:text-xl font-bold tracking-tight">Planificador de Validación de Autoclaves</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Ruta Casanare: Yopal • Orocué • Sácama • La Salina</p>
+                    <p class="text-xs sm:text-sm text-slate-400">Ruta Casanare: Yopal • Orocué • Sácama • La Salina • Bocas del Pauto</p>
                 </div>
             </div>
             <div class="flex items-center gap-2 no-print">
@@ -106,21 +112,50 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                        <!-- Tarifa por Municipio -->
+                        <!-- Tarifa de validación por destino -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Valor Validación por Municipio (COP)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
-                                <input type="number" id="feePerCity" value="350000" step="10000" min="0" oninput="calculate()"
-                                    class="w-full pl-8 pr-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Valor Validación por Destino (COP)</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div id="feebox-orocue" class="transition-opacity">
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="fee-orocue">Orocué</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="fee-orocue" value="350000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                                    </div>
+                                </div>
+                                <div id="feebox-sacama" class="transition-opacity">
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="fee-sacama">Sácama</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="fee-sacama" value="350000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                                    </div>
+                                </div>
+                                <div id="feebox-salina" class="transition-opacity">
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="fee-salina">La Salina</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="fee-salina" value="350000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                                    </div>
+                                </div>
+                                <div id="feebox-bocas" class="opacity-50 transition-opacity">
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1" for="fee-bocas">Bocas del Pauto</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="fee-bocas" value="350000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-bold focus:ring-2 focus:ring-emerald-500 outline-none">
+                                    </div>
+                                </div>
                             </div>
-                            <span class="block text-[11px] text-slate-500 mt-1">Hospitales: Orocué, Sácama y La Salina</span>
+                            <span class="block text-[11px] text-slate-500 mt-2">Cada destino tiene su propio valor. Solo suman los destinos marcados a la derecha.</span>
                         </div>
 
                         <!-- Municipios a visitar -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <span class="block text-xs font-bold text-slate-700 mb-2">Hospitales / Municipios Incluidos</span>
-                            <div class="grid grid-cols-3 gap-2">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <label id="card-city-orocue" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
                                     <input type="checkbox" id="city-orocue" checked onchange="toggleCityStyle('orocue'); calculate()" class="sr-only">
                                     <span class="text-xs font-bold text-slate-900">Orocué</span>
@@ -129,12 +164,17 @@
                                 <label id="card-city-sacama" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
                                     <input type="checkbox" id="city-sacama" checked onchange="toggleCityStyle('sacama'); calculate()" class="sr-only">
                                     <span class="text-xs font-bold text-slate-900">Sácama</span>
-                                    <span class="text-[10px] text-emerald-700 font-medium">Día 2</span>
+                                    <span class="text-[10px] text-emerald-700 font-medium" id="tile-day-sacama">Día 2</span>
                                 </label>
                                 <label id="card-city-salina" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50/30 cursor-pointer text-center transition select-none">
                                     <input type="checkbox" id="city-salina" checked onchange="toggleCityStyle('salina'); calculate()" class="sr-only">
                                     <span class="text-xs font-bold text-slate-900">La Salina</span>
-                                    <span class="text-[10px] text-emerald-700 font-medium">Día 2</span>
+                                    <span class="text-[10px] text-emerald-700 font-medium" id="tile-day-salina">Día 2</span>
+                                </label>
+                                <label id="card-city-bocas" class="flex flex-col items-center justify-center p-2 rounded-lg border-2 border-slate-200 bg-white opacity-60 cursor-pointer text-center transition select-none">
+                                    <input type="checkbox" id="city-bocas" onchange="toggleCityStyle('bocas'); refreshDays()" class="sr-only">
+                                    <span class="text-xs font-bold text-slate-900">Bocas del Pauto</span>
+                                    <span class="text-[10px] text-teal-700 font-medium" id="tile-day-bocas">Día 3</span>
                                 </label>
                             </div>
                         </div>
@@ -163,13 +203,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="block text-[10px] text-slate-500 mb-0.5">Días</span>
-                                        <select id="incPerDiemDays" onchange="calculate()"
-                                            class="w-full px-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
-                                            <option value="1">1 día</option>
-                                            <option value="2" selected>2 días</option>
-                                            <option value="3">3 días</option>
-                                        </select>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Días (tabla por día)</span>
+                                        <input type="number" id="incPerDiemDays" readonly tabindex="-1" value="2" class="w-full px-2 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-not-allowed">
                                     </div>
                                 </div>
                             </div>
@@ -193,13 +228,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="block text-[10px] text-slate-500 mb-0.5">Noches</span>
-                                        <select id="incHotelNights" onchange="calculate()"
-                                            class="w-full px-2 py-1 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none">
-                                            <option value="0">0 noches</option>
-                                            <option value="1" selected>1 noche</option>
-                                            <option value="2">2 noches</option>
-                                        </select>
+                                        <span class="block text-[10px] text-slate-500 mb-0.5">Noches (tabla por día)</span>
+                                        <input type="number" id="incHotelNights" readonly tabindex="-1" value="1" class="w-full px-2 py-1 bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 outline-none cursor-not-allowed">
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +258,7 @@
                                     <span class="text-xs font-bold text-emerald-700" id="inc-bus-subtotal">$ 90.000</span>
                                 </div>
                                 <div id="inc-bus-inputs" class="space-y-1">
-                                    <span class="block text-[10px] text-slate-500" id="inc-bus-hint">Se suman solo los días en que el transporte sea Bus de Línea (Día 1, Día 2 o ambos).</span>
+                                    <span class="block text-[10px] text-slate-500" id="inc-bus-hint">Se suman solo los días en que el transporte sea Bus de Línea (uno o varios días).</span>
                                 </div>
                             </div>
                         </div>
@@ -259,18 +289,40 @@
                         </span>
                     </div>
 
+                    <!-- Sácama y La Salina: ¿un día o dos? -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <span class="block text-xs font-bold text-slate-700">Sácama y La Salina</span>
+                            <span class="block text-[11px] text-slate-500">¿Se atienden el mismo día o en días distintos? En 2 días, cada uno tiene su propio transporte.</span>
+                        </div>
+                        <div class="inline-flex rounded-lg bg-slate-200/70 p-1 self-start">
+                            <button type="button" id="split-btn-one" onclick="setSplitNorth(false)" class="px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">En 1 día</button>
+                            <button type="button" id="split-btn-two" onclick="setSplitNorth(true)" class="px-3 py-1.5 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">En 2 días</button>
+                        </div>
+                    </div>
+
                     <!-- ========================================================= -->
                     <!-- DÍA 1: RUTA OROCUÉ                                        -->
                     <!-- ========================================================= -->
                     <div class="rounded-2xl border-2 border-blue-100 bg-blue-50/20 p-4 sm:p-5 space-y-4">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex items-center gap-2">
-                                <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-extrabold tracking-wide uppercase">Día 1</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d1-pill">Día 1</span>
                                 <h3 class="font-bold text-slate-900 text-sm sm:text-base">Ruta Orocué (Yopal ↔ Orocué)</h3>
                             </div>
                             <span class="text-xs font-bold text-blue-700 bg-blue-100/80 px-2.5 py-1 rounded-lg" id="d1-badge-total">
                                 Transporte + Gasolina: $ 90.000
                             </span>
+                        </div>
+
+                        <!-- Duración del destino -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] font-semibold text-slate-600">Duración de este destino:</span>
+                            <div class="inline-flex rounded-lg bg-slate-200/70 p-1">
+                                <button type="button" id="dur-1-1" onclick="setStopDays(1, 1)" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">1 día</button>
+                                <button type="button" id="dur-1-2" onclick="setStopDays(1, 2)" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">2 días</button>
+                            </div>
+                            <span class="text-[11px] text-slate-500"></span>
                         </div>
 
                         <!-- Selector de modalidad Día 1 -->
@@ -404,17 +456,176 @@
                     </div>
 
                     <!-- ========================================================= -->
+                    <!-- SEGUNDO DÍA (OPCIONAL): OROCUÉ · SEGUNDO DÍA -->
+                    <!-- ========================================================= -->
+                    <div id="day5-card" class="hidden rounded-2xl border-2 border-blue-100 bg-blue-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d5-pill">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base" id="d5-title">Orocué · segundo día</h3>
+                            </div>
+                            <span class="text-xs font-bold text-blue-700 bg-blue-100/80 px-2.5 py-1 rounded-lg" id="d5-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Aviso del segundo día -->
+                        <div class="rounded-xl bg-white border border-blue-200 p-3 text-xs text-slate-700">
+                            Segundo día de Orocué: elige su propia modalidad y tarifa. Los valores iniciales se copiaron del circuito norte y el combustible quedó en $0 porque ya cuenta en el primer día. Ajústalos a tu caso.
+                        </div>
+
+                        <!-- Selector de modalidad Día 2 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(5, 'bus')" id="d5-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-blue-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d5-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(5, 'driver')" id="d5-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-blue-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-blue-600 text-white" id="d5-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(5, 'rental')" id="d5-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-blue-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d5-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 2 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d5-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus del día</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d5-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d5-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (segundo día)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d5-btn-driver-common" onclick="setDayDriverMode(5, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-blue-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d5-btn-driver-custom" onclick="setDayDriverMode(5, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d5-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común del día (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d5-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d5-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-blue-50/70 p-3 rounded-lg border border-blue-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-blue-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d5-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-blue-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-blue-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d5-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-blue-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d5-driverFuelIncluded" onchange="toggleDayDriverFuel(5); calculate()" class="h-4 w-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d5-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina:</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d5-driverFuelPrice" value="0" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d5-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d5-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible del día</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d5-rentalFuel" value="0" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
                     <!-- DÍA 2: RUTA NORTE (SÁCAMA Y LA SALINA)                    -->
                     <!-- ========================================================= -->
                     <div class="rounded-2xl border-2 border-indigo-100 bg-indigo-50/20 p-4 sm:p-5 space-y-4">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex items-center gap-2">
-                                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-extrabold tracking-wide uppercase">Día 2</span>
-                                <h3 class="font-bold text-slate-900 text-sm sm:text-base">Ruta Norte (Yopal → Sácama → La Salina → Yopal)</h3>
+                                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d2-pill">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base" id="d2-title">Ruta Norte (Yopal → Sácama → La Salina → Yopal)</h3>
                             </div>
                             <span class="text-xs font-bold text-indigo-700 bg-indigo-100/80 px-2.5 py-1 rounded-lg" id="d2-badge-total">
                                 Transporte + Gasolina: $ 585.000
                             </span>
+                        </div>
+
+                        <!-- Duración del destino -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] font-semibold text-slate-600">Duración de este destino:</span>
+                            <div class="inline-flex rounded-lg bg-slate-200/70 p-1">
+                                <button type="button" id="dur-2-1" onclick="setStopDays(2, 1)" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">1 día</button>
+                                <button type="button" id="dur-2-2" onclick="setStopDays(2, 2)" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">2 días</button>
+                            </div>
+                            <span class="text-[11px] text-slate-500"></span>
                         </div>
 
                         <!-- Selector de modalidad Día 2 -->
@@ -471,7 +682,7 @@
                             <!-- D2: Camioneta con conductor -->
                             <div id="d2-config-driver" class="space-y-3">
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (Día 2 - Alta montaña)</span>
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (Alta montaña)</span>
                                     <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
                                         <button type="button" id="d2-btn-driver-common" onclick="setDayDriverMode(2, 'common')"
                                             class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-indigo-700 shadow-sm transition">
@@ -546,13 +757,884 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ========================================================= -->
+                    <!-- SEGUNDO DÍA (OPCIONAL): RUTA NORTE · SEGUNDO DÍA -->
+                    <!-- ========================================================= -->
+                    <div id="day6-card" class="hidden rounded-2xl border-2 border-indigo-100 bg-indigo-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d6-pill">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base" id="d6-title">Ruta Norte · segundo día</h3>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-700 bg-indigo-100/80 px-2.5 py-1 rounded-lg" id="d6-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Aviso del segundo día -->
+                        <div class="rounded-xl bg-white border border-indigo-200 p-3 text-xs text-slate-700">
+                            Segundo día de el circuito norte: elige su propia modalidad y tarifa. Los valores iniciales se copiaron del circuito norte y el combustible quedó en $0 porque ya cuenta en el primer día. Ajústalos a tu caso.
+                        </div>
+
+                        <!-- Selector de modalidad Día 2 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(6, 'bus')" id="d6-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-indigo-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d6-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(6, 'driver')" id="d6-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-indigo-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-indigo-600 text-white" id="d6-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(6, 'rental')" id="d6-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-indigo-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d6-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 2 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d6-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus del día</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d6-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d6-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (segundo día)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d6-btn-driver-common" onclick="setDayDriverMode(6, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-indigo-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d6-btn-driver-custom" onclick="setDayDriverMode(6, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d6-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común del día (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d6-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d6-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-indigo-50/70 p-3 rounded-lg border border-indigo-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-indigo-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d6-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-indigo-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-indigo-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d6-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-indigo-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d6-driverFuelIncluded" onchange="toggleDayDriverFuel(6); calculate()" class="h-4 w-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d6-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina:</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d6-driverFuelPrice" value="0" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d6-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d6-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible del día</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d6-rentalFuel" value="0" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- DÍA 3 (SOLO SI SÁCAMA Y LA SALINA VAN EN 2 DÍAS): LA SALINA -->
+                    <!-- ========================================================= -->
+                    <div id="day4-card" class="hidden rounded-2xl border-2 border-cyan-100 bg-cyan-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-cyan-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d4-pill">Día 3</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base">La Salina (Yopal → La Salina → Yopal)</h3>
+                            </div>
+                            <span class="text-xs font-bold text-cyan-700 bg-cyan-100/80 px-2.5 py-1 rounded-lg" id="d4-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Datos de la ruta -->
+                        <div class="rounded-xl bg-white border border-cyan-200 p-3 text-xs text-slate-700 space-y-1.5">
+                            <p class="font-bold text-cyan-800">La Salina en un día aparte (referencial)</p>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li>Yopal → Sácama son unos 155 km y ~3 h 30 min por carretera (rome2rio.com). En tu cronograma, de Sácama a La Salina hay ~1 h 40 min más. No encontré la distancia exacta a La Salina.</li>
+                                <li>Los valores iniciales de transporte y combustible se copiaron del circuito norte. Ajústalos al recorrido de un solo destino.</li>
+                                <li>Marca el hospedaje de cada día en la tabla de "Alimentación y Hospedaje por Día".</li>
+                            </ul>
+                        </div>
+
+                        <!-- Duración del destino -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] font-semibold text-slate-600">Duración de este destino:</span>
+                            <div class="inline-flex rounded-lg bg-slate-200/70 p-1">
+                                <button type="button" id="dur-4-1" onclick="setStopDays(4, 1)" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">1 día</button>
+                                <button type="button" id="dur-4-2" onclick="setStopDays(4, 2)" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">2 días</button>
+                            </div>
+                            <span class="text-[11px] text-slate-500"></span>
+                        </div>
+
+                        <!-- Selector de modalidad Día 3 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(4, 'bus')" id="d4-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-cyan-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d4-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(4, 'driver')" id="d4-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-cyan-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-cyan-600 text-white" id="d4-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(4, 'rental')" id="d4-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-cyan-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d4-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 3 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d4-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus a La Salina (ida y vuelta)</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d4-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d4-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (La Salina)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d4-btn-driver-common" onclick="setDayDriverMode(4, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-cyan-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d4-btn-driver-custom" onclick="setDayDriverMode(4, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d4-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común La Salina (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d4-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d4-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-cyan-50/70 p-3 rounded-lg border border-cyan-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cyan-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d4-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-cyan-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cyan-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d4-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-cyan-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d4-driverFuelIncluded" onchange="toggleDayDriverFuel(4); calculate()" class="h-4 w-4 text-cyan-600 rounded border-slate-300 focus:ring-cyan-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d4-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina:</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d4-driverFuelPrice" value="85000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-cyan-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d4-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d4-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible La Salina</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d4-rentalFuel" value="85000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- SEGUNDO DÍA (OPCIONAL): LA SALINA · SEGUNDO DÍA -->
+                    <!-- ========================================================= -->
+                    <div id="day7-card" class="hidden rounded-2xl border-2 border-cyan-100 bg-cyan-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-cyan-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d7-pill">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base" id="d7-title">La Salina · segundo día</h3>
+                            </div>
+                            <span class="text-xs font-bold text-cyan-700 bg-cyan-100/80 px-2.5 py-1 rounded-lg" id="d7-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Aviso del segundo día -->
+                        <div class="rounded-xl bg-white border border-cyan-200 p-3 text-xs text-slate-700">
+                            Segundo día de La Salina: elige su propia modalidad y tarifa. Los valores iniciales se copiaron del circuito norte y el combustible quedó en $0 porque ya cuenta en el primer día. Ajústalos a tu caso.
+                        </div>
+
+                        <!-- Selector de modalidad Día 2 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(7, 'bus')" id="d7-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-cyan-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d7-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(7, 'driver')" id="d7-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-cyan-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-cyan-600 text-white" id="d7-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(7, 'rental')" id="d7-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-cyan-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d7-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 2 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d7-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus del día</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d7-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d7-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (segundo día)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d7-btn-driver-common" onclick="setDayDriverMode(7, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-cyan-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d7-btn-driver-custom" onclick="setDayDriverMode(7, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d7-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común del día (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d7-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d7-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-cyan-50/70 p-3 rounded-lg border border-cyan-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cyan-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d7-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-cyan-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cyan-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d7-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-cyan-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d7-driverFuelIncluded" onchange="toggleDayDriverFuel(7); calculate()" class="h-4 w-4 text-cyan-600 rounded border-slate-300 focus:ring-cyan-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d7-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina:</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d7-driverFuelPrice" value="0" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-cyan-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d7-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d7-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible del día</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d7-rentalFuel" value="0" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-cyan-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- DÍA 3: BOCAS DEL PAUTO (OPCIONAL)                          -->
+                    <!-- ========================================================= -->
+                    <div id="day3-card" class="rounded-2xl border-2 border-teal-100 bg-teal-50/20 p-4 sm:p-5 space-y-4 opacity-60">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-teal-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d3-pill">Día 3</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base">Bocas del Pauto (Yopal → Trinidad → Bocas del Pauto → Yopal)</h3>
+                            </div>
+                            <span class="text-xs font-bold text-teal-700 bg-teal-100/80 px-2.5 py-1 rounded-lg" id="d3-badge-total">
+                                No incluido
+                            </span>
+                        </div>
+
+                        <!-- Aviso: día no incluido -->
+                        <div id="d3-off-note" class="rounded-lg bg-white border border-dashed border-teal-300 px-3 py-2 text-xs text-slate-600">
+                            Este día no suma costos mientras no marques <strong>Bocas del Pauto</strong> en "Hospitales / Municipios Incluidos" (sección 1).
+                        </div>
+
+                        <!-- Datos de la ruta -->
+                        <div class="rounded-xl bg-white border border-teal-200 p-3 text-xs text-slate-700 space-y-1.5">
+                            <p class="font-bold text-teal-800">Datos de la ruta (referenciales)</p>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li>Bocas del Pauto es un corregimiento de Trinidad (Casanare), sobre el río Pauto, cerca de su desembocadura en el Meta.</li>
+                                <li>Yopal → Bocas del Pauto: unos 213 km y ~8 h 15 min por sentido (≈ 426 km ida y vuelta), según calcularruta.com. Yopal → Trinidad: ~128 km y ~4 h 40 min.</li>
+                                <li>Desde Trinidad la vía es en su mayoría trocha: solo hay 7,5 km pavimentados (Llanera.com, oct. 2026) y en invierno el barro puede dejarla incomunicada.</li>
+                                <li>Bus: encontré servicio Yopal–Trinidad, pero no un servicio de línea hasta Bocas del Pauto ni su tarifa. Si lo confirmas, escribe el valor.</li>
+                                <li>Son unas 16 h de carretera ida y vuelta, por lo que es difícil hacerlo en un solo día sin pernoctar. Marca el hospedaje en la tabla de "Alimentación y Hospedaje por Día".</li>
+                                <li>Valores iniciales: la tarifa se copió del Día 2 y el combustible se ajustó a los ~426 km con el mismo rendimiento del Día 2. Ajústalos a tu caso.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Duración del destino -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] font-semibold text-slate-600">Duración de este destino:</span>
+                            <div class="inline-flex rounded-lg bg-slate-200/70 p-1">
+                                <button type="button" id="dur-3-1" onclick="setStopDays(3, 1)" class="px-3 py-1 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition">1 día</button>
+                                <button type="button" id="dur-3-2" onclick="setStopDays(3, 2)" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">2 días</button>
+                            </div>
+                            <span class="text-[11px] text-slate-500">Con ~16 h de carretera ida y vuelta, 2 días suele ser lo práctico.</span>
+                        </div>
+
+                        <!-- Selector de modalidad Día 3 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(3, 'bus')" id="d3-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-teal-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d3-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(3, 'driver')" id="d3-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-teal-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-teal-600 text-white" id="d3-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(3, 'rental')" id="d3-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-teal-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d3-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 3 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d3-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus a Bocas del Pauto (ida y vuelta)</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d3-busPrice" value="0" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d3-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (Bocas del Pauto)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d3-btn-driver-common" onclick="setDayDriverMode(3, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-teal-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d3-btn-driver-custom" onclick="setDayDriverMode(3, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d3-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común Bocas del Pauto (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d3-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d3-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-teal-50/70 p-3 rounded-lg border border-teal-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-teal-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d3-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-teal-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-teal-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d3-driverCustomPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-teal-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d3-driverFuelIncluded" onchange="toggleDayDriverFuel(3); calculate()" class="h-4 w-4 text-teal-600 rounded border-slate-300 focus:ring-teal-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d3-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina (~426 km):</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d3-driverFuelPrice" value="78000" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-teal-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d3-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d3-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible Bocas (~426 km)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d3-rentalFuel" value="78000" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- SEGUNDO DÍA (OPCIONAL): BOCAS DEL PAUTO · SEGUNDO DÍA -->
+                    <!-- ========================================================= -->
+                    <div id="day8-card" class="hidden rounded-2xl border-2 border-teal-100 bg-teal-50/20 p-4 sm:p-5 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-teal-600 text-white text-xs font-extrabold tracking-wide uppercase" id="d8-pill">Día 2</span>
+                                <h3 class="font-bold text-slate-900 text-sm sm:text-base" id="d8-title">Bocas del Pauto · segundo día</h3>
+                            </div>
+                            <span class="text-xs font-bold text-teal-700 bg-teal-100/80 px-2.5 py-1 rounded-lg" id="d8-badge-total">
+                                Transporte + Gasolina: $ 585.000
+                            </span>
+                        </div>
+
+                        <!-- Aviso del segundo día -->
+                        <div class="rounded-xl bg-white border border-teal-200 p-3 text-xs text-slate-700">
+                            Segundo día de Bocas del Pauto: elige su propia modalidad y tarifa. Los valores iniciales se copiaron del circuito norte y el combustible quedó en $0 porque ya cuenta en el primer día. Ajústalos a tu caso.
+                        </div>
+
+                        <!-- Selector de modalidad Día 2 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button type="button" onclick="selectDayTransport(8, 'bus')" id="d8-btn-bus"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-teal-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d8-icon-bus">
+                                    <i data-lucide="bus" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Bus de Línea</span>
+                                    <span class="block text-[11px] text-slate-500">Pasajes del día</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(8, 'driver')" id="d8-btn-driver"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-teal-600 bg-white shadow-sm text-left transition">
+                                <div class="p-2 rounded-lg bg-teal-600 text-white" id="d8-icon-driver">
+                                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Camioneta + Conductor</span>
+                                    <span class="block text-[11px] text-slate-500">Común o etiqueta</span>
+                                </div>
+                            </button>
+
+                            <button type="button" onclick="selectDayTransport(8, 'rental')" id="d8-btn-rental"
+                                class="flex items-center gap-2.5 p-3 rounded-xl border-2 border-slate-200 bg-white/80 hover:border-teal-300 text-left transition">
+                                <div class="p-2 rounded-lg bg-slate-100 text-slate-600" id="d8-icon-rental">
+                                    <i data-lucide="car" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-900">Vehículo Alquilado</span>
+                                    <span class="block text-[11px] text-slate-500">Sin conductor</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Panel Configuración Día 2 -->
+                        <div class="bg-white rounded-xl p-4 border border-slate-200/90">
+                            <!-- D2: Bus -->
+                            <div id="d8-config-bus" class="hidden space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-bold text-slate-700">Pasajes Bus del día</label>
+                                    <span class="text-[11px] font-medium text-slate-500">Combustible: $ 0</span>
+                                </div>
+                                <div class="relative sm:w-64">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                    <input type="number" id="d8-busPrice" value="95000" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                </div>
+                            </div>
+
+                            <!-- D2: Camioneta con conductor -->
+                            <div id="d8-config-driver" class="space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <span class="text-xs font-bold text-slate-700">Tarifa Camioneta con Conductor (segundo día)</span>
+                                    <div class="inline-flex rounded-lg bg-slate-100 p-1 self-start">
+                                        <button type="button" id="d8-btn-driver-common" onclick="setDayDriverMode(8, 'common')"
+                                            class="px-2.5 py-1 text-xs font-bold rounded-md bg-white text-teal-700 shadow-sm transition">
+                                            Tarifa Común
+                                        </button>
+                                        <button type="button" id="d8-btn-driver-custom" onclick="setDayDriverMode(8, 'custom')"
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">
+                                            Personalizada (Etiqueta)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="d8-driver-common-box">
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Valor Tarifa Común del día (COP)</label>
+                                    <div class="relative sm:w-64">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d8-driverCommonPrice" value="500000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <div id="d8-driver-custom-box" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 bg-teal-50/70 p-3 rounded-lg border border-teal-200">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-teal-900 mb-1">Etiqueta del Acuerdo *</label>
+                                        <input type="text" id="d8-driverCustomLabel" value="Camioneta 4x4 acordada" placeholder="Ej: Tarifa amigo, Expreso..." oninput="calculate()"
+                                            class="w-full px-3 py-1.5 bg-white border border-teal-300 rounded-lg text-sm text-slate-900 font-medium focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-teal-900 mb-1">Precio Definido (COP) *</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                            <input type="number" id="d8-driverCustomPrice" value="320000" step="10000" min="0" oninput="calculate()"
+                                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-teal-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                                        <input type="checkbox" id="d8-driverFuelIncluded" onchange="toggleDayDriverFuel(8); calculate()" class="h-4 w-4 text-teal-600 rounded border-slate-300 focus:ring-teal-500">
+                                        <span class="text-xs font-medium text-slate-700">Incluye combustible</span>
+                                    </label>
+                                    <div id="d8-driver-fuel-box" class="flex items-center gap-2">
+                                        <span class="text-xs text-slate-500">Gasolina:</span>
+                                        <div class="relative w-36">
+                                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                            <input type="number" id="d8-driverFuelPrice" value="0" step="5000" min="0" oninput="calculate()"
+                                                class="w-full pl-6 pr-2 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-900 focus:ring-2 focus:ring-teal-500 outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- D2: Vehículo Alquilado -->
+                            <div id="d8-config-rental" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Alquiler Vehículo (1 día)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d8-rentalRate" value="180000" step="10000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Combustible del día</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-semibold">$</span>
+                                        <input type="number" id="d8-rentalFuel" value="0" step="5000" min="0" oninput="calculate()"
+                                            class="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-bold focus:ring-2 focus:ring-teal-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- 3. GASTOS REALES DE ALIMENTACIÓN, HOSPEDAJE E IMPREVISTOS -->
+                <!-- 3. ALIMENTACIÓN Y HOSPEDAJE POR DÍA -->
+                <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-teal-100 text-teal-700 font-bold text-sm">3</span>
+                            <div>
+                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Alimentación y Hospedaje por Día</h2>
+                                <p class="text-xs text-slate-500">Marca en qué días hay viáticos y en cuáles se pernocta, tanto lo que gastas como lo que te reconocen</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-xs min-w-[780px]">
+                            <thead>
+                                <tr class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
+                                    <th rowspan="2" class="py-2 px-3 text-left font-bold align-bottom">Día</th>
+                                    <th colspan="2" class="py-2 px-3 text-center font-bold border-l border-slate-200">Alimentación</th>
+                                    <th colspan="2" class="py-2 px-3 text-center font-bold border-l border-slate-200">Hospedaje (noche)</th>
+                                    <th colspan="2" class="py-2 px-3 text-center font-bold border-l border-slate-200 text-sky-700">Conductor</th>
+                                </tr>
+                                <tr class="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                                    <th class="pb-2 px-3 text-center font-semibold border-l border-slate-200">Gasto real</th>
+                                    <th class="pb-2 px-3 text-center font-semibold">Reconocida</th>
+                                    <th class="pb-2 px-3 text-center font-semibold border-l border-slate-200">Gasto real</th>
+                                    <th class="pb-2 px-3 text-center font-semibold">Reconocido</th>
+                                    <th class="pb-2 px-3 text-center font-semibold border-l border-slate-200">Alimentación</th>
+                                    <th class="pb-2 px-3 text-center font-semibold">Hospedaje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dayplan-body"></tbody>
+                            <tfoot>
+                                <tr class="bg-slate-50 border-t-2 border-slate-200 text-[11px] text-slate-700 font-semibold">
+                                    <td class="py-2.5 px-3 font-bold text-slate-900">Totales</td>
+                                    <td class="py-2.5 px-3 text-center border-l border-slate-200" id="dp-tot-pdReal">—</td>
+                                    <td class="py-2.5 px-3 text-center" id="dp-tot-pdInc">—</td>
+                                    <td class="py-2.5 px-3 text-center border-l border-slate-200" id="dp-tot-htReal">—</td>
+                                    <td class="py-2.5 px-3 text-center" id="dp-tot-htInc">—</td>
+                                    <td class="py-2.5 px-3 text-center border-l border-slate-200" id="dp-tot-drPd">—</td>
+                                    <td class="py-2.5 px-3 text-center" id="dp-tot-drHt">—</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- Viáticos y hospedaje del conductor -->
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-sky-50/60 border border-sky-200 rounded-xl p-3.5 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-800">Viáticos del conductor</span>
+                                <span class="text-xs font-bold text-sky-700" id="driver-pd-sub">$ 0</span>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 mb-0.5" for="driverPdRate">Valor / día</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                    <input type="number" id="driverPdRate" value="0" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-sky-500 outline-none">
+                                </div>
+                            </div>
+                            <label class="flex items-start gap-2 cursor-pointer select-none">
+                                <input type="checkbox" id="driverPdBill" onchange="calculate()" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
+                                <span class="text-xs text-slate-700"><strong>Incluir en la cotización</strong>
+                                    <span class="block text-[11px] text-slate-500" id="driver-pd-hint"></span></span>
+                            </label>
+                        </div>
+                        <div class="bg-sky-50/60 border border-sky-200 rounded-xl p-3.5 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-800">Hospedaje del conductor</span>
+                                <span class="text-xs font-bold text-sky-700" id="driver-ht-sub">$ 0</span>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 mb-0.5" for="driverHtRate">Valor / noche</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-xs font-semibold">$</span>
+                                    <input type="number" id="driverHtRate" value="0" step="5000" min="0" oninput="calculate()"
+                                        class="w-full pl-6 pr-2 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-sky-500 outline-none">
+                                </div>
+                            </div>
+                            <label class="flex items-start gap-2 cursor-pointer select-none">
+                                <input type="checkbox" id="driverHtBill" onchange="calculate()" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500">
+                                <span class="text-xs text-slate-700"><strong>Incluir en la cotización</strong>
+                                    <span class="block text-[11px] text-slate-500" id="driver-ht-hint"></span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <p class="mt-2 text-[11px] text-slate-500">Los costos del conductor solo cuentan en los días con "Camioneta + Conductor". Siempre son un gasto tuyo; si los incluyes en la cotización, también suman a tus ingresos.</p>
+                    <p class="mt-2 text-[11px] text-slate-500">Los valores por día y por noche se editan en "Ingresos" (reconocidos) y en "Gastos Reales". "Reconocida" solo suma a ingresos si el rubro está activo arriba.</p>
+                </section>
+
+                <!-- 4. GASTOS REALES DE ALIMENTACIÓN, HOSPEDAJE E IMPREVISTOS -->
                 <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
-                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-sm">3</span>
+                            <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-sm">4</span>
                             <h2 class="text-base sm:text-lg font-bold text-slate-900">Gastos Reales del Viaje (Egresos)</h2>
                         </div>
                         <span class="text-xs text-slate-500">Consumo efectivo</span>
@@ -575,13 +1657,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <span class="block text-[11px] text-slate-500 mb-1">Días de viaje</span>
-                                    <select id="perDiemDays" onchange="calculate()"
-                                        class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-amber-500 outline-none">
-                                        <option value="1">1 día</option>
-                                        <option value="2" selected>2 días</option>
-                                        <option value="3">3 días</option>
-                                    </select>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Días (tabla por día)</span>
+                                    <input type="number" id="perDiemDays" readonly tabindex="-1" value="2" class="w-full px-2.5 py-1.5 bg-slate-100 border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 outline-none cursor-not-allowed">
                                 </div>
                             </div>
                         </div>
@@ -590,7 +1667,7 @@
                         <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                             <label class="block text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
                                 <i data-lucide="bed-double" class="w-3.5 h-3.5 text-indigo-600"></i>
-                                Hospedaje (Ruta Norte)
+                                Hospedaje
                             </label>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -602,13 +1679,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <span class="block text-[11px] text-slate-500 mb-1">Noches</span>
-                                    <select id="hotelNights" onchange="calculate()"
-                                        class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-                                        <option value="0">0 noches</option>
-                                        <option value="1" selected>1 noche</option>
-                                        <option value="2">2 noches</option>
-                                    </select>
+                                    <span class="block text-[11px] text-slate-500 mb-1">Noches (tabla por día)</span>
+                                    <input type="number" id="hotelNights" readonly tabindex="-1" value="1" class="w-full px-2.5 py-1.5 bg-slate-100 border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 outline-none cursor-not-allowed">
                                 </div>
                             </div>
                         </div>
@@ -664,6 +1736,26 @@
                                     <li><strong>04:00 AM:</strong> Yopal a Sácama (~4h 20m) • Atención 09:00 AM (3h).</li>
                                     <li><strong>12:30 PM:</strong> Desplazamiento Sácama a La Salina (~1h 40m).</li>
                                     <li><strong>02:30 PM:</strong> Validación La Salina (2-3h) • Noche en norte y retorno (~6h).</li>
+                                </ul>
+                            </div>
+                            <!-- Nota: Sácama y La Salina en días separados -->
+                            <div id="sched-split-note" class="hidden bg-cyan-50/60 p-3.5 rounded-xl border border-cyan-200 sm:col-span-2">
+                                <span class="font-bold text-cyan-800 block mb-1.5">Sácama y La Salina en días separados</span>
+                                <ul class="space-y-1.5 text-xs text-slate-600">
+                                    <li><strong>Sácama:</strong> Yopal–Sácama ~155 km y ~3 h 30 min por carretera (rome2rio.com); en tu cronograma, ~4 h 20 min.</li>
+                                    <li><strong>La Salina:</strong> según tu cronograma queda ~1 h 40 min más allá de Sácama, unas 6 h desde Yopal. Ese día conviene pernoctar.</li>
+                                </ul>
+                            </div>
+                            <!-- Día de Bocas del Pauto -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 sm:col-span-2">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-bold text-teal-700" id="sched-bocas-title">Día 3: Bocas del Pauto (opcional)</span>
+                                    <span class="text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-semibold">~426 km i/v</span>
+                                </div>
+                                <ul class="space-y-1.5 text-xs text-slate-600">
+                                    <li><strong>Ida:</strong> Yopal a Trinidad (~128 km, ~4h 40m) y de ahí a Bocas del Pauto por trocha; en total ~213 km y ~8h 15m según calcularruta.com.</li>
+                                    <li><strong>Vía:</strong> solo 7,5 km pavimentados desde Trinidad; en invierno el barro puede cortar el paso. Conviene vehículo 4x4.</li>
+                                    <li><strong>Plan:</strong> con ~16 h de carretera ida y vuelta, lo más práctico es salir de madrugada y pernoctar en la zona, o repartir el día en dos.</li>
                                 </ul>
                             </div>
                         </div>
@@ -750,6 +1842,10 @@
                             <span id="inc-detail-hotel-label">Hospedaje reconocido (1 noche):</span>
                             <span class="font-bold text-slate-900" id="inc-detail-hotel-val">$ 60.000</span>
                         </div>
+                        <div id="inc-detail-driver-row" class="hidden flex justify-between text-slate-700">
+                            <span id="inc-detail-driver-label">Conductor reconocido:</span>
+                            <span class="font-bold text-slate-900" id="inc-detail-driver-val">$ 0</span>
+                        </div>
                         <div id="inc-detail-bus-row" class="hidden flex justify-between text-slate-700">
                             <span id="inc-detail-bus-label">Pasajes de bus reembolsables:</span>
                             <span class="font-bold text-slate-900" id="inc-detail-bus-val">$ 0</span>
@@ -774,6 +1870,15 @@
                                 <span class="font-bold text-slate-900" id="detail-d1-val">$ 90.000</span>
                             </div>
 
+                            <!-- Transporte segundo día (Orocué) -->
+                            <div id="detail-d5-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d5-title">Segundo día</span>
+                                    <span class="text-xs text-blue-600 font-medium block" id="detail-d5-sub"></span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d5-val">$ 0</span>
+                            </div>
+
                             <!-- Transporte Día 2 -->
                             <div class="flex items-start justify-between py-1 border-t border-slate-100">
                                 <div>
@@ -781,6 +1886,51 @@
                                     <span class="text-xs text-indigo-600 font-medium block" id="detail-d2-sub">Tarifa Común</span>
                                 </div>
                                 <span class="font-bold text-slate-900" id="detail-d2-val">$ 500.000</span>
+                            </div>
+
+                            <!-- Transporte segundo día (el circuito norte) -->
+                            <div id="detail-d6-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d6-title">Segundo día</span>
+                                    <span class="text-xs text-indigo-600 font-medium block" id="detail-d6-sub"></span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d6-val">$ 0</span>
+                            </div>
+
+                            <!-- Transporte La Salina (solo si va en día aparte) -->
+                            <div id="detail-d4-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d4-title">Día 3 (La Salina): Camioneta + conductor</span>
+                                    <span class="text-xs text-cyan-600 font-medium block" id="detail-d4-sub">Tarifa Común</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d4-val">$ 0</span>
+                            </div>
+
+                            <!-- Transporte segundo día (La Salina) -->
+                            <div id="detail-d7-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d7-title">Segundo día</span>
+                                    <span class="text-xs text-cyan-600 font-medium block" id="detail-d7-sub"></span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d7-val">$ 0</span>
+                            </div>
+
+                            <!-- Transporte Día 3 (solo si Bocas del Pauto está incluida) -->
+                            <div id="detail-d3-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d3-title">Día 3 (Bocas del Pauto): Camioneta + conductor</span>
+                                    <span class="text-xs text-teal-600 font-medium block" id="detail-d3-sub">Tarifa Común</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d3-val">$ 0</span>
+                            </div>
+
+                            <!-- Transporte segundo día (Bocas del Pauto) -->
+                            <div id="detail-d8-row" class="hidden flex items-start justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800 block" id="detail-d8-title">Segundo día</span>
+                                    <span class="text-xs text-teal-600 font-medium block" id="detail-d8-sub"></span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-d8-val">$ 0</span>
                             </div>
 
                             <!-- Combustible Total -->
@@ -808,6 +1958,15 @@
                                     <span class="text-xs text-slate-500 block" id="detail-hotel-sub">1 noche × $ 60.000</span>
                                 </div>
                                 <span class="font-bold text-slate-900" id="detail-hotel-val">$ 60.000</span>
+                            </div>
+
+                            <!-- Viáticos y hospedaje del conductor -->
+                            <div id="detail-driver-row" class="hidden flex items-center justify-between py-1 border-t border-slate-100">
+                                <div>
+                                    <span class="font-medium text-slate-800">Conductor (viáticos y hospedaje)</span>
+                                    <span class="text-xs text-slate-500 block" id="detail-driver-sub">—</span>
+                                </div>
+                                <span class="font-bold text-slate-900" id="detail-driver-val">$ 0</span>
                             </div>
 
                             <!-- Otros -->
@@ -876,12 +2035,14 @@
 
             <!-- Tabla Responsiva de Comparación -->
             <div class="overflow-x-auto rounded-xl border border-slate-200">
-                <table class="w-full text-left border-collapse min-w-[820px]">
+                <table class="w-full text-left border-collapse min-w-[1080px]">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                             <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('name')">Plan / Estrategia <span data-sort-ind="name"></span></th>
-                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d1')">Día 1 (Orocué) <span data-sort-ind="d1"></span></th>
-                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d2')">Día 2 (Sácama / Salina) <span data-sort-ind="d2"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d1')">Orocué <span data-sort-ind="d1"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d2')">Sácama / La Salina <span data-sort-ind="d2"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d4')">La Salina (día aparte) <span data-sort-ind="d4"></span></th>
+                            <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-900" onclick="setSort('d3')">Bocas del Pauto <span data-sort-ind="d3"></span></th>
                             <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('income')">Ingresos <span data-sort-ind="income"></span></th>
                             <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('cost')">Gastos Viaje <span data-sort-ind="cost"></span></th>
                             <th class="py-3.5 px-4 text-right cursor-pointer select-none hover:text-slate-900" onclick="setSort('profit')">Utilidad Neta <span data-sort-ind="profit"></span></th>
@@ -895,7 +2056,7 @@
             </div>
 
             <div id="plans-empty-state" class="hidden text-center py-10">
-                <p class="text-sm text-slate-500">No tienes planes guardados aún. Configura los días 1 y 2 arriba y haz clic en <strong>"Guardar Plan"</strong>.</p>
+                <p class="text-sm text-slate-500">No tienes planes guardados aún. Configura los días del viaje arriba y haz clic en <strong>"Guardar Plan"</strong>.</p>
             </div>
 
             <!-- Controles de orden -->
@@ -907,8 +2068,10 @@
                     <option value="margin">Margen %</option>
                     <option value="income">Ingresos</option>
                     <option value="cost">Gastos del viaje</option>
-                    <option value="d1">Costo Día 1</option>
-                    <option value="d2">Costo Día 2</option>
+                    <option value="d1">Costo Orocué</option>
+                    <option value="d2">Costo Sácama / La Salina</option>
+                    <option value="d4">Costo La Salina (día aparte)</option>
+                    <option value="d3">Costo Bocas del Pauto</option>
                     <option value="name">Nombre</option>
                 </select>
                 <button type="button" onclick="toggleSortDir()" id="sortDirBtn" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold text-slate-800 transition">Descendente ↓</button>
@@ -936,6 +2099,7 @@
                         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Combustible</span>
                         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> Alimentación</span>
                         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> Hospedaje</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Conductor</span>
                         <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> Otros</span>
                     </div>
                     <div id="chart-costs" class="space-y-3"></div>
@@ -958,7 +2122,7 @@
             <!-- Barra de acciones -->
             <div class="no-print flex flex-wrap items-center justify-between gap-2 mb-4">
                 <button type="button" onclick="closeQuote()" class="px-3.5 py-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition">← Volver al cotizador</button>
-                <button type="button" onclick="copyQuoteText()" class="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow transition">Copiar cotización como texto</button>
+                <button type="button" onclick="printQuote()" class="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow transition">Imprimir / Guardar PDF</button>
             </div>
 
             <!-- Datos editables de la cotización -->
@@ -1015,8 +2179,192 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 mode: 'driver', // 'bus' | 'driver' | 'rental'
                 driverPriceMode: 'common' // 'common' | 'custom'
             },
+            day3: {
+                mode: 'driver', // Bocas del Pauto: 'bus' | 'driver' | 'rental'
+                driverPriceMode: 'common' // 'common' | 'custom'
+            },
+            day4: {
+                mode: 'driver', // La Salina en día aparte
+                driverPriceMode: 'common'
+            },
+            // Segundos días de cada destino (5: Orocué, 6: Sácama/Norte, 7: La Salina, 8: Bocas)
+            day5: { mode: 'driver', driverPriceMode: 'common' },
+            day6: { mode: 'driver', driverPriceMode: 'common' },
+            day7: { mode: 'driver', driverPriceMode: 'common' },
+            day8: { mode: 'driver', driverPriceMode: 'common' },
+            stopDays: { 1: 1, 2: 1, 4: 1, 3: 1 }, // días que toma cada destino (1 o 2)
+            splitNorth: false, // false: Sácama y La Salina en 1 día | true: en 2 días
+            dayPlan: defaultDayPlan(),
             savedPlans: []
         };
+
+        // Color de acento de cada día
+        const ACCENTS = { 1: 'blue', 2: 'indigo', 3: 'teal', 4: 'cyan', 5: 'blue', 6: 'indigo', 7: 'cyan', 8: 'teal' };
+        const EXTRA = { 1: 5, 2: 6, 4: 7, 3: 8 }; // destino -> clave de su segundo día
+
+        // Alimentación y hospedaje por día (real = gasto propio, inc = reconocido por la empresa)
+        function defaultDayPlan() {
+            return {
+                1: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                2: { pdReal: true, pdInc: true, htReal: true, htInc: true, drPd: true, drHt: true },
+                4: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                3: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                5: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                6: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                7: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true },
+                8: { pdReal: true, pdInc: true, htReal: false, htInc: false, drPd: true, drHt: true }
+            };
+        }
+
+        // Días activos del viaje, en orden, con su numeración real
+        function activeSlots(forceBocas) {
+            const split = state.splitNorth;
+            const bocasEl = document.getElementById('city-bocas');
+            const bocasOn = !!forceBocas || !!(bocasEl && bocasEl.checked);
+            const defs = [
+                { key: 1, place: 'Orocué', hint: '' },
+                { key: 2, place: split ? 'Sácama' : 'Sácama y La Salina', hint: split ? 'Yopal–Sácama: ~155 km, ~3 h 30 min por carretera.' : '' }
+            ];
+            if (split) defs.push({ key: 4, place: 'La Salina', hint: 'Según el cronograma, ~6 h desde Yopal. Considera hospedaje.' });
+            if (bocasOn) defs.push({ key: 3, place: 'Bocas del Pauto', hint: '~16 h de carretera ida y vuelta. Considera hospedaje.' });
+            const slots = [];
+            defs.forEach(d => {
+                slots.push(d);
+                if (state.stopDays[d.key] === 2) {
+                    slots.push({ key: EXTRA[d.key], parentKey: d.key, place: d.place + ' (2.º día)', hint: 'Segundo día: regreso o continuación.' });
+                }
+            });
+            slots.forEach((s, i) => { s.num = i + 1; s.label = 'Día ' + (i + 1); });
+            return slots;
+        }
+
+        function dayPlanCounts() {
+            const c = { pdReal: 0, pdInc: 0, htReal: 0, htInc: 0 };
+            activeSlots().forEach(s => {
+                const f = state.dayPlan[s.key];
+                if (!f) return;
+                Object.keys(c).forEach(k => { if (f[k]) c[k]++; });
+            });
+            return c;
+        }
+
+        function renderDayPlan() {
+            const body = document.getElementById('dayplan-body');
+            if (!body) return;
+            const cell = (key, field, color, border) => `
+                <td class="py-2.5 px-3 text-center ${border ? 'border-l border-slate-200' : ''}">
+                    <input type="checkbox" id="dp-${key}-${field}" ${state.dayPlan[key][field] ? 'checked' : ''}
+                        onchange="setDayPlan(${key}, '${field}', this.checked)"
+                        class="h-4 w-4 rounded border-slate-300 ${color}">
+                </td>`;
+            body.innerHTML = activeSlots().map(s => `
+                <tr class="border-t border-slate-100">
+                    <td class="py-2.5 px-3">
+                        <span class="font-bold text-slate-900">${s.label}</span><span class="text-slate-600"> · ${s.place}</span>
+                        ${s.hint ? `<span class="block text-[11px] text-slate-500">${s.hint}</span>` : ''}
+                    </td>
+                    ${cell(s.key, 'pdReal', 'text-amber-600 focus:ring-amber-500', true)}
+                    ${cell(s.key, 'pdInc', 'text-emerald-600 focus:ring-emerald-500', false)}
+                    ${cell(s.key, 'htReal', 'text-amber-600 focus:ring-amber-500', true)}
+                    ${cell(s.key, 'htInc', 'text-emerald-600 focus:ring-emerald-500', false)}
+                    ${cell(s.key, 'drPd', 'text-sky-600 focus:ring-sky-500', true)}
+                    ${cell(s.key, 'drHt', 'text-sky-600 focus:ring-sky-500', false)}
+                </tr>`).join('');
+        }
+
+        // Las casillas del conductor solo aplican en días con "Camioneta + Conductor"
+        function syncDriverCells() {
+            [1, 2, 3, 4, 5, 6, 7, 8].forEach(k => {
+                const mode = state['day' + k].mode;
+                ['drPd', 'drHt'].forEach(f => {
+                    const el = document.getElementById(`dp-${k}-${f}`);
+                    if (!el) return;
+                    el.disabled = mode !== 'driver';
+                    el.title = mode !== 'driver' ? 'Solo aplica en días con Camioneta + Conductor' : '';
+                    if (el.parentElement) el.parentElement.classList.toggle('opacity-30', mode !== 'driver');
+                });
+            });
+        }
+
+        function setDayPlan(key, field, checked) {
+            state.dayPlan[key][field] = checked;
+            calculate();
+        }
+
+        function syncSplitUI() {
+            const on = state.splitNorth;
+            const act = 'px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition';
+            const off = 'px-3 py-1.5 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition';
+            const one = document.getElementById('split-btn-one');
+            const two = document.getElementById('split-btn-two');
+            if (one) one.className = on ? off : act;
+            if (two) two.className = on ? act : off;
+            const d4 = document.getElementById('day4-card');
+            if (d4) d4.classList.toggle('hidden', !on);
+        }
+
+        function setSplitNorth(on) {
+            state.splitNorth = !!on;
+            syncSplitUI();
+            refreshDays();
+        }
+
+        function stopVisible(k) {
+            if (k === 4) return state.splitNorth;
+            if (k === 3) { const b = document.getElementById('city-bocas'); return !!(b && b.checked); }
+            return true;
+        }
+
+        function syncStopDaysUI() {
+            const act = 'px-3 py-1 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition';
+            const off = 'px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900 transition';
+            [1, 2, 4, 3].forEach(k => {
+                const two = state.stopDays[k] === 2;
+                const b1 = document.getElementById(`dur-${k}-1`);
+                const b2 = document.getElementById(`dur-${k}-2`);
+                if (b1) b1.className = two ? off : act;
+                if (b2) b2.className = two ? act : off;
+                const ex = document.getElementById(`day${EXTRA[k]}-card`);
+                if (ex) ex.classList.toggle('hidden', !(two && stopVisible(k)));
+            });
+        }
+
+        // Un destino puede tomar 1 o 2 días; cada día tiene su propio transporte
+        function setStopDays(key, days) {
+            state.stopDays[key] = days;
+            const f = state.dayPlan[key];
+            const base = defaultDayPlan()[key];
+            if (f) {
+                // Con 2 días se pernocta la noche del primer día
+                f.htReal = days === 2 ? true : base.htReal;
+                f.htInc = days === 2 ? true : base.htInc;
+            }
+            refreshDays();
+        }
+
+        function refreshDayLabels() {
+            const split = state.splitNorth;
+            const lab = {};
+            activeSlots(true).forEach(s => { lab[s.key] = s.label; }); // Bocas se numera como último día
+            const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+            [1, 2, 4, 3, 5, 6, 7, 8].forEach(k => { if (lab[k]) setText(`d${k}-pill`, lab[k]); });
+            setText('tile-day-sacama', lab[2] || 'Día 2');
+            setText('tile-day-salina', split ? (lab[4] || 'Día 3') : (lab[2] || 'Día 2'));
+            setText('tile-day-bocas', lab[3] || 'Día 3');
+            setText('d2-title', split ? 'Sácama (Yopal ↔ Sácama)' : 'Ruta Norte (Yopal → Sácama → La Salina → Yopal)');
+            setText('d6-title', split ? 'Sácama · segundo día' : 'Ruta Norte · segundo día');
+            setText('sched-bocas-title', (lab[3] || 'Día 3') + ': Bocas del Pauto (opcional)');
+            const note = document.getElementById('sched-split-note');
+            if (note) note.classList.toggle('hidden', !split);
+        }
+
+        // Vuelve a dibujar lo que depende de los días activos y recalcula
+        function refreshDays() {
+            renderDayPlan();
+            refreshDayLabels();
+            syncStopDaysUI();
+            calculate();
+        }
 
         // Formateador de moneda colombiana (COP)
         const formatCOP = (value) => {
@@ -1073,9 +2421,19 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         }
 
         // Cambiar estilo de tarjeta de municipio al marcar/desmarcar
+        function updateDay3Card(active) {
+            const card = document.getElementById('day3-card');
+            const note = document.getElementById('d3-off-note');
+            if (card) card.classList.toggle('opacity-60', !active);
+            if (note) note.classList.toggle('hidden', active);
+        }
+
         function toggleCityStyle(cityKey) {
+            if (cityKey === 'bocas') updateDay3Card(document.getElementById('city-bocas').checked);
             const checkbox = document.getElementById(`city-${cityKey}`);
             const card = document.getElementById(`card-city-${cityKey}`);
+            const feeBox = document.getElementById(`feebox-${cityKey}`);
+            if (feeBox) feeBox.classList.toggle('opacity-50', !checkbox.checked);
             if (checkbox.checked) {
                 card.classList.remove('border-slate-200', 'bg-white', 'opacity-60');
                 card.classList.add('border-emerald-500', 'bg-emerald-50/30');
@@ -1085,11 +2443,11 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             }
         }
 
-        // Seleccionar modalidad de transporte para un día específico (1 o 2)
+        // Seleccionar modalidad de transporte para un día específico (1, 2 o 3)
         function selectDayTransport(day, mode) {
             state[`day${day}`].mode = mode;
             const modes = ['bus', 'driver', 'rental'];
-            const accentColor = day === 1 ? 'blue' : 'indigo';
+            const accentColor = ACCENTS[day];
 
             modes.forEach(m => {
                 const btn = document.getElementById(`d${day}-btn-${m}`);
@@ -1113,7 +2471,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         // Cambiar entre tarifa común y personalizada para un día específico
         function setDayDriverMode(day, mode) {
             state[`day${day}`].driverPriceMode = mode;
-            const accentColor = day === 1 ? 'blue' : 'indigo';
+            const accentColor = ACCENTS[day];
             const btnCommon = document.getElementById(`d${day}-btn-driver-common`);
             const btnCustom = document.getElementById(`d${day}-btn-driver-custom`);
             const boxCommon = document.getElementById(`d${day}-driver-common-box`);
@@ -1153,7 +2511,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             chevron.classList.toggle('rotate-180');
         }
 
-        // Helper para calcular los valores de un día (1 o 2)
+        // Helper para calcular los valores de un día (1, 2 o 3)
         function computeDayMetrics(day) {
             const mode = state[`day${day}`].mode;
             const driverPriceMode = state[`day${day}`].driverPriceMode;
@@ -1167,7 +2525,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 transportCost = Math.max(0, getInputValue(`d${day}-busPrice`, 0));
                 fuelCost = 0;
                 title = 'Bus de Línea';
-                sub = day === 1 ? 'Pasajes ida y vuelta' : 'Pasajes circuito norte';
+                sub = { 1: 'Pasajes ida y vuelta', 2: 'Pasajes circuito norte', 3: 'Pasajes ida y vuelta a Bocas del Pauto', 4: 'Pasajes ida y vuelta a La Salina' }[day] || 'Pasajes del día';
                 shortName = 'Bus de Línea';
             } else if (mode === 'driver') {
                 title = 'Camioneta + conductor';
@@ -1211,43 +2569,80 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         // Cálculo principal en tiempo real
         function calculate() {
             // Si los elementos clave del DOM aún no existen, salir sin error
-            if (!document.getElementById('feePerCity')) return { grossIncome: 0, validationIncome: 0, incPerDiemTotal: 0, incHotelTotal: 0, incTransportTotal: 0, d1: { dayTotal: 0, shortName: '' }, d2: { dayTotal: 0, shortName: '' }, totalFuelCost: 0, totalPerDiem: 0, totalHotel: 0, otherCosts: 0, totalTripCost: 0, netProfit: 0, marginPercent: 0 };
+            if (!document.getElementById('fee-orocue')) return { grossIncome: 0, validationIncome: 0, incPerDiemTotal: 0, incHotelTotal: 0, incTransportTotal: 0, d1: { dayTotal: 0, shortName: '' }, d2: { dayTotal: 0, shortName: '' }, d3: { dayTotal: 0, shortName: '', mode: 'none' }, d4: { dayTotal: 0, shortName: '', mode: 'none' }, L: {}, totalFuelCost: 0, totalPerDiem: 0, totalHotel: 0, otherCosts: 0, totalTripCost: 0, netProfit: 0, marginPercent: 0 };
 
             // 1. Ingresos (Validaciones + Viáticos reconocidos + Hospedaje reconocido)
-            const feePerCity = Math.max(0, getInputValue('feePerCity', 0));
-            const activeCities = ['orocue', 'sacama', 'salina'].filter(c => getElementChecked(`city-${c}`, true));
+            const feeOf = (c) => Math.max(0, getInputValue(`fee-${c}`, 0));
+            const activeCities = ['orocue', 'sacama', 'salina', 'bocas'].filter(c => getElementChecked(`city-${c}`, true));
             const citiesCount = activeCities.length;
-            const validationIncome = feePerCity * citiesCount;
+            const validationIncome = activeCities.reduce((sum, c) => sum + feeOf(c), 0);
 
             const incPerDiemEnabled = getElementChecked('incPerDiemEnabled', true);
             const incPerDiemRate = Math.max(0, getInputValue('incPerDiemRate', 0));
-            const incPerDiemDays = Number(getInputValueString('incPerDiemDays', '2')) || 0;
+            const dp = dayPlanCounts();
+            const incPerDiemDays = dp.pdInc;
             const incPerDiemTotal = incPerDiemEnabled ? (incPerDiemRate * incPerDiemDays) : 0;
 
             const incHotelEnabled = getElementChecked('incHotelEnabled', true);
             const incHotelRate = Math.max(0, getInputValue('incHotelRate', 0));
-            const incHotelNights = Number(getInputValueString('incHotelNights', '1')) || 0;
+            const incHotelNights = dp.htInc;
             const incHotelTotal = incHotelEnabled ? (incHotelRate * incHotelNights) : 0;
 
             // 2. Transporte y Combustible por Día
             const d1 = computeDayMetrics(1);
             const d2 = computeDayMetrics(2);
-            const totalTransportCost = d1.transportCost + d2.transportCost;
-            const totalFuelCost = d1.fuelCost + d2.fuelCost;
+            // Día 3 (Bocas del Pauto): solo cuenta si la parada está marcada
+            const bocasOn = getElementChecked('city-bocas', false);
+            const split = state.splitNorth;
+            const inactive = (k) => ({ mode: 'none', driverPriceMode: state['day' + k].driverPriceMode, transportCost: 0, fuelCost: 0, dayTotal: 0, title: 'No incluido', sub: '', shortName: '—' });
+            const d4 = split ? computeDayMetrics(4) : inactive(4);   // La Salina en día aparte
+            const d3 = bocasOn ? computeDayMetrics(3) : inactive(3); // Bocas del Pauto
+            // Segundos días de cada destino (solo si el destino está activo y dura 2 días)
+            const stopOn = { 1: true, 2: true, 4: split, 3: bocasOn };
+            const extraOf = (k) => (stopOn[k] && state.stopDays[k] === 2) ? computeDayMetrics(EXTRA[k]) : inactive(EXTRA[k]);
+            const d5 = extraOf(1), d6 = extraOf(2), d7 = extraOf(4), d8 = extraOf(3);
+            const dmAll = { 1: d1, 2: d2, 3: d3, 4: d4, 5: d5, 6: d6, 7: d7, 8: d8 };
+            const L = {};
+            activeSlots().forEach(s => { L[s.key] = s.label; });
+
+            // Viáticos y hospedaje del conductor (solo días con camioneta + conductor)
+            const driverDays = { pd: 0, ht: 0 };
+            const dayMetricsByKey = dmAll;
+            activeSlots().forEach(s => {
+                const f = state.dayPlan[s.key];
+                const dm = dayMetricsByKey[s.key];
+                if (f && dm && dm.mode === 'driver') {
+                    if (f.drPd) driverDays.pd++;
+                    if (f.drHt) driverDays.ht++;
+                }
+            });
+            const driverPdRate = Math.max(0, getInputValue('driverPdRate', 0));
+            const driverHtRate = Math.max(0, getInputValue('driverHtRate', 0));
+            const driverPdBill = getElementChecked('driverPdBill', false);
+            const driverHtBill = getElementChecked('driverHtBill', false);
+            const driverPdTotal = driverPdRate * driverDays.pd;
+            const driverHtTotal = driverHtRate * driverDays.ht;
+            const driverCostsTotal = driverPdTotal + driverHtTotal;
+            const driverBilledTotal = (driverPdBill ? driverPdTotal : 0) + (driverHtBill ? driverHtTotal : 0);
+            const allDays = Object.values(dmAll);
+            const totalTransportCost = allDays.reduce((sum, d) => sum + d.transportCost, 0);
+            const totalFuelCost = allDays.reduce((sum, d) => sum + d.fuelCost, 0);
 
             // Transporte Reembolsable en Ingresos (si está activo)
             const incTransportEnabled = getElementChecked('incTransportEnabled', false);
             // Sumamos el costo de transporte (y gasolina si aplica) o solo transporte de camioneta/alquiler según se requiera
             // Solo días con camioneta/alquiler (los pasajes de bus se manejan aparte)
-            const nonBusTransport = (d1.mode !== 'bus' ? d1.transportCost : 0) + (d2.mode !== 'bus' ? d2.transportCost : 0);
+            const nonBusTransport = allDays.reduce((sum, d) => sum + (d.mode !== 'bus' ? d.transportCost : 0), 0);
             const incTransportTotal = incTransportEnabled ? nonBusTransport : 0;
 
             // Pasajes de bus reembolsables: solo los días cuya modalidad sea bus
             const incBusEnabled = getElementChecked('incBusEnabled', true);
             const busDays = [];
             let busFareTotal = 0;
-            if (d1.mode === 'bus') { busDays.push('Día 1'); busFareTotal += d1.transportCost; }
-            if (d2.mode === 'bus') { busDays.push('Día 2'); busFareTotal += d2.transportCost; }
+            activeSlots().forEach(s => {
+                const dd = dmAll[s.key];
+                if (dd.mode === 'bus') { busDays.push(L[s.key]); busFareTotal += dd.transportCost; }
+            });
             const incBusTotal = incBusEnabled ? busFareTotal : 0;
 
             const elBusSub = document.getElementById('inc-bus-subtotal');
@@ -1257,7 +2652,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 ? `Pasajes incluidos: ${busDays.join(' + ')} (${formatCOP(busFareTotal)}).`
                 : 'No hay días con Bus de Línea seleccionado; no se suma nada.';
 
-            const reimbursementsTotal = incPerDiemTotal + incHotelTotal + incTransportTotal + incBusTotal;
+            const reimbursementsTotal = incPerDiemTotal + incHotelTotal + incTransportTotal + incBusTotal + driverBilledTotal;
             const grossIncome = validationIncome + reimbursementsTotal;
 
             const elPerDiemSubElem = document.getElementById('inc-perdiem-subtotal');
@@ -1276,20 +2671,36 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             if (elD1Badge) elD1Badge.textContent = `Transporte + Gasolina: ${formatCOP(d1.dayTotal)}`;
             const elD2Badge = document.getElementById('d2-badge-total');
             if (elD2Badge) elD2Badge.textContent = `Transporte + Gasolina: ${formatCOP(d2.dayTotal)}`;
+            const elD3Badge = document.getElementById('d3-badge-total');
+            if (elD3Badge) elD3Badge.textContent = bocasOn ? `Transporte + Gasolina: ${formatCOP(d3.dayTotal)}` : 'No incluido';
+            const elD4Badge = document.getElementById('d4-badge-total');
+            if (elD4Badge) elD4Badge.textContent = `Transporte + Gasolina: ${formatCOP(d4.dayTotal)}`;
 
             // 3. Gastos reales de Alimentación, Hospedaje y Otros
             const perDiemRate = Math.max(0, getInputValue('perDiemRate', 0));
-            const perDiemDays = Number(getInputValueString('perDiemDays', '2')) || 0;
+            const perDiemDays = dp.pdReal;
             const totalPerDiem = perDiemRate * perDiemDays;
 
             const hotelRate = Math.max(0, getInputValue('hotelRate', 0));
-            const hotelNights = Number(getInputValueString('hotelNights', '1')) || 0;
+            const hotelNights = dp.htReal;
             const totalHotel = hotelRate * hotelNights;
 
             const otherCosts = Math.max(0, getInputValue('otherCosts', 0));
 
+            // Totales de la tabla "Alimentación y Hospedaje por Día"
+            const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+            setTxt('dp-tot-pdReal', `${dp.pdReal} × ${formatCOP(perDiemRate)} = ${formatCOP(totalPerDiem)}`);
+            setTxt('dp-tot-pdInc', incPerDiemEnabled ? `${dp.pdInc} × ${formatCOP(incPerDiemRate)} = ${formatCOP(incPerDiemTotal)}` : 'No suma a ingresos');
+            setTxt('dp-tot-htReal', `${dp.htReal} × ${formatCOP(hotelRate)} = ${formatCOP(totalHotel)}`);
+            setTxt('dp-tot-htInc', incHotelEnabled ? `${dp.htInc} × ${formatCOP(incHotelRate)} = ${formatCOP(incHotelTotal)}` : 'No suma a ingresos');
+            // Valores visibles en los campos de solo lectura
+            ['incPerDiemDays', 'incHotelNights', 'perDiemDays', 'hotelNights'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                if (el) el.value = [dp.pdInc, dp.htInc, dp.pdReal, dp.htReal][i];
+            });
+
             // 4. Totales y Utilidad
-            const totalTripCost = totalTransportCost + totalFuelCost + totalPerDiem + totalHotel + otherCosts;
+            const totalTripCost = totalTransportCost + totalFuelCost + totalPerDiem + totalHotel + otherCosts + driverCostsTotal;
             const netProfit = grossIncome - totalTripCost;
             const marginPercent = grossIncome > 0 ? Math.round((netProfit / grossIncome) * 100) : 0;
 
@@ -1301,7 +2712,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             const elKpiCost = document.getElementById('kpi-cost');
             if (elKpiCost) elKpiCost.textContent = formatCOP(totalTripCost);
             const elKpiTransportLabel = document.getElementById('kpi-transport-label');
-            if (elKpiTransportLabel) elKpiTransportLabel.textContent = `D1: ${d1.shortName} • D2: ${d2.shortName}`;
+            if (elKpiTransportLabel) elKpiTransportLabel.textContent = activeSlots().map(s => 'D' + s.num + ': ' + dmAll[s.key].shortName).join(' • ');
             const elKpiProfit = document.getElementById('kpi-profit');
             if (elKpiProfit) elKpiProfit.textContent = formatCOP(netProfit);
             const elNoteGross = document.getElementById('note-gross');
@@ -1388,14 +2799,54 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             if (elD1Val) elD1Val.textContent = formatCOP(d1.transportCost);
 
             const elD2Title = document.getElementById('detail-d2-title');
-            if (elD2Title) elD2Title.textContent = `Día 2 (Norte): ${d2.title}`;
+            if (elD2Title) elD2Title.textContent = `${L[2]} (${split ? 'Sácama' : 'Norte'}): ${d2.title}`;
             const elD2Sub = document.getElementById('detail-d2-sub');
             if (elD2Sub) elD2Sub.textContent = d2.sub;
             const elD2Val = document.getElementById('detail-d2-val');
             if (elD2Val) elD2Val.textContent = formatCOP(d2.transportCost);
 
+            const extraPlace = { 5: 'Orocué', 6: split ? 'Sácama' : 'Norte', 7: 'La Salina', 8: 'Bocas del Pauto' };
+            [5, 6, 7, 8].forEach(k => {
+                const dx = dmAll[k];
+                const row = document.getElementById(`detail-d${k}-row`);
+                const on = dx.mode !== 'none';
+                if (row) row.classList.toggle('hidden', !on);
+                if (on) {
+                    setTxt(`detail-d${k}-title`, `${L[k]} (${extraPlace[k]}, 2.º día): ${dx.title}`);
+                    setTxt(`detail-d${k}-sub`, dx.sub);
+                    setTxt(`detail-d${k}-val`, formatCOP(dx.transportCost));
+                }
+                setTxt(`d${k}-badge-total`, `Transporte + Gasolina: ${formatCOP(dx.dayTotal)}`);
+            });
+
+            const d4Row = document.getElementById('detail-d4-row');
+            if (d4Row) {
+                d4Row.classList.toggle('hidden', !split);
+                if (split) {
+                    const elD4Title = document.getElementById('detail-d4-title');
+                    if (elD4Title) elD4Title.textContent = `${L[4]} (La Salina): ${d4.title}`;
+                    const elD4Sub = document.getElementById('detail-d4-sub');
+                    if (elD4Sub) elD4Sub.textContent = d4.sub;
+                    const elD4Val = document.getElementById('detail-d4-val');
+                    if (elD4Val) elD4Val.textContent = formatCOP(d4.transportCost);
+                }
+            }
+
+            const d3Row = document.getElementById('detail-d3-row');
+            if (d3Row) {
+                d3Row.classList.toggle('hidden', !bocasOn);
+                if (bocasOn) {
+                    const elD3Title = document.getElementById('detail-d3-title');
+                    if (elD3Title) elD3Title.textContent = `${L[3]} (Bocas del Pauto): ${d3.title}`;
+                    const elD3Sub = document.getElementById('detail-d3-sub');
+                    if (elD3Sub) elD3Sub.textContent = d3.sub;
+                    const elD3Val = document.getElementById('detail-d3-val');
+                    if (elD3Val) elD3Val.textContent = formatCOP(d3.transportCost);
+                }
+            }
+
             const elFuelSub = document.getElementById('detail-fuel-sub');
-            if (elFuelSub) elFuelSub.textContent = `Día 1 (${formatCOP(d1.fuelCost)}) + Día 2 (${formatCOP(d2.fuelCost)})`;
+            if (elFuelSub) elFuelSub.textContent = activeSlots().map(s => `${s.label} (${formatCOP(dmAll[s.key].fuelCost)})`).join(' + ');
             const elFuelVal = document.getElementById('detail-fuel-val');
             if (elFuelVal) elFuelVal.textContent = formatCOP(totalFuelCost);
 
@@ -1420,6 +2871,35 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 }
             }
 
+            // Conductor: tabla por día, paneles y desglose
+            setTxt('dp-tot-drPd', `${driverDays.pd} × ${formatCOP(driverPdRate)} = ${formatCOP(driverPdTotal)}`);
+            setTxt('dp-tot-drHt', `${driverDays.ht} × ${formatCOP(driverHtRate)} = ${formatCOP(driverHtTotal)}`);
+            setTxt('driver-pd-sub', formatCOP(driverPdTotal));
+            setTxt('driver-ht-sub', formatCOP(driverHtTotal));
+            const billHint = (billed) => billed
+                ? 'Se suma a tus ingresos y sale como línea en la cotización. Igual cuenta como gasto.'
+                : 'No va en la cotización: lo asumes tú y se resta de tu utilidad neta.';
+            setTxt('driver-pd-hint', billHint(driverPdBill));
+            setTxt('driver-ht-hint', billHint(driverHtBill));
+
+            const incDriverRow = document.getElementById('inc-detail-driver-row');
+            if (incDriverRow) {
+                incDriverRow.classList.toggle('hidden', driverBilledTotal <= 0);
+                setTxt('inc-detail-driver-val', formatCOP(driverBilledTotal));
+            }
+            const detDriverRow = document.getElementById('detail-driver-row');
+            if (detDriverRow) {
+                detDriverRow.classList.toggle('hidden', driverCostsTotal <= 0);
+                const parts = [];
+                if (driverPdTotal > 0) parts.push(`Alimentación ${driverDays.pd} × ${formatCOP(driverPdRate)}`);
+                if (driverHtTotal > 0) parts.push(`Hospedaje ${driverDays.ht} × ${formatCOP(driverHtRate)}`);
+                const billedTxt = driverBilledTotal <= 0 ? 'lo asumes tú'
+                    : (driverPdBill && driverHtBill ? 'incluido en la cotización' : 'parte incluida en la cotización');
+                setTxt('detail-driver-sub', parts.join(' + ') + ' • ' + billedTxt);
+                setTxt('detail-driver-val', formatCOP(driverCostsTotal));
+            }
+            syncDriverCells();
+
             const elTotalCost = document.getElementById('detail-total-cost');
             if (elTotalCost) elTotalCost.textContent = formatCOP(totalTripCost);
 
@@ -1432,6 +2912,26 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 incBusTotal,
                 d1,
                 d2,
+                d3,
+                d4,
+                d5,
+                d6,
+                d7,
+                d8,
+                dmAll,
+                slots: activeSlots(),
+                L,
+                split,
+                driverPdTotal,
+                driverHtTotal,
+                driverPdCount: driverDays.pd,
+                driverHtCount: driverDays.ht,
+                driverPdRate,
+                driverHtRate,
+                driverPdBill,
+                driverHtBill,
+                driverCostsTotal,
+                driverBilledTotal,
                 totalFuelCost,
                 totalPerDiem,
                 totalHotel,
@@ -1443,20 +2943,42 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         }
 
         // Capturar el snapshot completo del formulario actual
+        // Configuración de transporte de un día (para guardar planes)
+        function dayCfg(k) {
+            return {
+                mode: state['day' + k].mode,
+                driverPriceMode: state['day' + k].driverPriceMode,
+                busPrice: getInputValue(`d${k}-busPrice`, 95000),
+                driverCommonPrice: getInputValue(`d${k}-driverCommonPrice`, 500000),
+                driverCustomLabel: getInputValueString(`d${k}-driverCustomLabel`, ''),
+                driverCustomPrice: getInputValue(`d${k}-driverCustomPrice`, 320000),
+                driverFuelIncluded: getElementChecked(`d${k}-driverFuelIncluded`, false),
+                driverFuelPrice: getInputValue(`d${k}-driverFuelPrice`, 0),
+                rentalRate: getInputValue(`d${k}-rentalRate`, 180000),
+                rentalFuel: getInputValue(`d${k}-rentalFuel`, 0)
+            };
+        }
+
         function captureCurrentSnapshot(customName) {
             const metrics = calculate();
-            const defaultName = `Plan ${String.fromCharCode(65 + (state.savedPlans.length % 26))}: D1 ${metrics.d1.shortName} + D2 ${metrics.d2.shortName}`;
+            const defaultName = `Plan ${String.fromCharCode(65 + (state.savedPlans.length % 26))}: D1 ${metrics.d1.shortName} + D2 ${metrics.d2.shortName}` + (metrics.split ? ` + La Salina ${metrics.d4.shortName}` : '') + (metrics.d3 && metrics.d3.mode !== 'none' ? ` + Bocas ${metrics.d3.shortName}` : '') + ` • ${metrics.slots.length} días`;
             const planName = (customName || '').trim() || defaultName;
 
             return {
                 id: 'plan-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
                 name: planName,
                 config: {
-                    feePerCity: getInputValue('feePerCity', 350000),
+                    fees: {
+                        orocue: getInputValue('fee-orocue', 350000),
+                        sacama: getInputValue('fee-sacama', 350000),
+                        salina: getInputValue('fee-salina', 350000),
+                        bocas: getInputValue('fee-bocas', 350000)
+                    },
                     cities: {
                         orocue: getElementChecked('city-orocue', true),
                         sacama: getElementChecked('city-sacama', true),
-                        salina: getElementChecked('city-salina', true)
+                        salina: getElementChecked('city-salina', true),
+                        bocas: getElementChecked('city-bocas', false)
                     },
                     incPerDiemEnabled: getElementChecked('incPerDiemEnabled', true),
                     incPerDiemRate: getInputValue('incPerDiemRate', 60000),
@@ -1490,6 +3012,43 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                         rentalRate: getInputValue('d2-rentalRate', 180000),
                         rentalFuel: getInputValue('d2-rentalFuel', 85000)
                     },
+                    day3: {
+                        mode: state.day3.mode,
+                        driverPriceMode: state.day3.driverPriceMode,
+                        busPrice: getInputValue('d3-busPrice', 0),
+                        driverCommonPrice: getInputValue('d3-driverCommonPrice', 500000),
+                        driverCustomLabel: getInputValueString('d3-driverCustomLabel', ''),
+                        driverCustomPrice: getInputValue('d3-driverCustomPrice', 500000),
+                        driverFuelIncluded: getElementChecked('d3-driverFuelIncluded', false),
+                        driverFuelPrice: getInputValue('d3-driverFuelPrice', 78000),
+                        rentalRate: getInputValue('d3-rentalRate', 180000),
+                        rentalFuel: getInputValue('d3-rentalFuel', 78000)
+                    },
+                    day4: {
+                        mode: state.day4.mode,
+                        driverPriceMode: state.day4.driverPriceMode,
+                        busPrice: getInputValue('d4-busPrice', 95000),
+                        driverCommonPrice: getInputValue('d4-driverCommonPrice', 500000),
+                        driverCustomLabel: getInputValueString('d4-driverCustomLabel', ''),
+                        driverCustomPrice: getInputValue('d4-driverCustomPrice', 320000),
+                        driverFuelIncluded: getElementChecked('d4-driverFuelIncluded', false),
+                        driverFuelPrice: getInputValue('d4-driverFuelPrice', 85000),
+                        rentalRate: getInputValue('d4-rentalRate', 180000),
+                        rentalFuel: getInputValue('d4-rentalFuel', 85000)
+                    },
+                    driver: {
+                        pdRate: getInputValue('driverPdRate', 0),
+                        htRate: getInputValue('driverHtRate', 0),
+                        pdBill: getElementChecked('driverPdBill', false),
+                        htBill: getElementChecked('driverHtBill', false)
+                    },
+                    day5: dayCfg(5),
+                    day6: dayCfg(6),
+                    day7: dayCfg(7),
+                    day8: dayCfg(8),
+                    stopDays: Object.assign({}, state.stopDays),
+                    splitNorth: state.splitNorth,
+                    dayPlan: JSON.parse(JSON.stringify(state.dayPlan)),
                     perDiemRate: getInputValue('perDiemRate', 60000),
                     perDiemDays: getInputValueString('perDiemDays', '2'),
                     hotelRate: getInputValue('hotelRate', 60000),
@@ -1506,9 +3065,11 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             if (!plan) return;
             const c = plan.config;
 
-            document.getElementById('feePerCity').value = c.feePerCity;
-            ['orocue', 'sacama', 'salina'].forEach(city => {
-                document.getElementById(`city-${city}`).checked = c.cities[city];
+            ['orocue', 'sacama', 'salina', 'bocas'].forEach(k => {
+                document.getElementById(`fee-${k}`).value = (c.fees && c.fees[k] !== undefined) ? c.fees[k] : 350000;
+            });
+            ['orocue', 'sacama', 'salina', 'bocas'].forEach(city => {
+                document.getElementById(`city-${city}`).checked = !!c.cities[city];
                 toggleCityStyle(city);
             });
 
@@ -1530,8 +3091,23 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             document.getElementById('incBusEnabled').checked = c.incBusEnabled !== undefined ? c.incBusEnabled : true;
             toggleIncomeAddon('bus');
 
-            [1, 2].forEach(day => {
+            state.splitNorth = !!c.splitNorth;
+            state.stopDays = Object.assign({ 1: 1, 2: 1, 4: 1, 3: 1 }, c.stopDays || {});
+            const baseDayPlan = defaultDayPlan();
+            state.dayPlan = {};
+            Object.keys(baseDayPlan).forEach(k => {
+                state.dayPlan[k] = Object.assign({}, baseDayPlan[k], (c.dayPlan && c.dayPlan[k]) || {});
+            });
+            const drv = c.driver || { pdRate: 0, htRate: 0, pdBill: false, htBill: false };
+            document.getElementById('driverPdRate').value = drv.pdRate;
+            document.getElementById('driverHtRate').value = drv.htRate;
+            document.getElementById('driverPdBill').checked = !!drv.pdBill;
+            document.getElementById('driverHtBill').checked = !!drv.htBill;
+            syncSplitUI();
+
+            [1, 2, 3, 4, 5, 6, 7, 8].forEach(day => {
                 const dc = c[`day${day}`];
+                if (!dc) return;
                 selectDayTransport(day, dc.mode);
                 setDayDriverMode(day, dc.driverPriceMode);
                 document.getElementById(`d${day}-busPrice`).value = dc.busPrice;
@@ -1551,16 +3127,20 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             document.getElementById('hotelNights').value = c.hotelNights;
             document.getElementById('otherCosts').value = c.otherCosts;
 
-            calculate();
+            refreshDays();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             showToast(`Plan "${plan.name}" cargado en el editor`);
         }
 
         // Restablecer valores por defecto
         function resetDefaults() {
-            document.getElementById('feePerCity').value = 350000;
-            ['orocue', 'sacama', 'salina'].forEach(c => {
-                document.getElementById(`city-${c}`).checked = true;
+            ['orocue', 'sacama', 'salina', 'bocas'].forEach(k => { document.getElementById(`fee-${k}`).value = 350000; });
+            state.splitNorth = false;
+            state.stopDays = { 1: 1, 2: 1, 4: 1, 3: 1 };
+            state.dayPlan = defaultDayPlan();
+            syncSplitUI();
+            ['orocue', 'sacama', 'salina', 'bocas'].forEach(c => {
+                document.getElementById(`city-${c}`).checked = c !== 'bocas';
                 toggleCityStyle(c);
             });
 
@@ -1606,13 +3186,59 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             document.getElementById('d2-rentalRate').value = 180000;
             document.getElementById('d2-rentalFuel').value = 85000;
 
+            // Día 3 defaults (Bocas del Pauto)
+            selectDayTransport(3, 'driver');
+            setDayDriverMode(3, 'common');
+            document.getElementById('d3-busPrice').value = 0;
+            document.getElementById('d3-driverCommonPrice').value = 500000;
+            document.getElementById('d3-driverCustomLabel').value = 'Camioneta 4x4 acordada';
+            document.getElementById('d3-driverCustomPrice').value = 500000;
+            document.getElementById('d3-driverFuelIncluded').checked = false;
+            toggleDayDriverFuel(3);
+            document.getElementById('d3-driverFuelPrice').value = 78000;
+            document.getElementById('d3-rentalRate').value = 180000;
+            document.getElementById('d3-rentalFuel').value = 78000;
+
+            // La Salina en día aparte: valores iniciales copiados del circuito norte
+            selectDayTransport(4, 'driver');
+            setDayDriverMode(4, 'common');
+            document.getElementById('d4-busPrice').value = 95000;
+            document.getElementById('d4-driverCommonPrice').value = 500000;
+            document.getElementById('d4-driverCustomLabel').value = 'Camioneta 4x4 acordada';
+            document.getElementById('d4-driverCustomPrice').value = 320000;
+            document.getElementById('d4-driverFuelIncluded').checked = false;
+            toggleDayDriverFuel(4);
+            document.getElementById('d4-driverFuelPrice').value = 85000;
+            document.getElementById('d4-rentalRate').value = 180000;
+            document.getElementById('d4-rentalFuel').value = 85000;
+
+            // Segundos días: valores iniciales copiados del circuito norte, sin combustible
+            [5, 6, 7, 8].forEach(k => {
+                selectDayTransport(k, 'driver');
+                setDayDriverMode(k, 'common');
+                document.getElementById(`d${k}-busPrice`).value = 95000;
+                document.getElementById(`d${k}-driverCommonPrice`).value = 500000;
+                document.getElementById(`d${k}-driverCustomLabel`).value = 'Camioneta 4x4 acordada';
+                document.getElementById(`d${k}-driverCustomPrice`).value = 320000;
+                document.getElementById(`d${k}-driverFuelIncluded`).checked = false;
+                toggleDayDriverFuel(k);
+                document.getElementById(`d${k}-driverFuelPrice`).value = 0;
+                document.getElementById(`d${k}-rentalRate`).value = 180000;
+                document.getElementById(`d${k}-rentalFuel`).value = 0;
+            });
+
             document.getElementById('perDiemRate').value = 60000;
             document.getElementById('perDiemDays').value = '2';
             document.getElementById('hotelRate').value = 60000;
             document.getElementById('hotelNights').value = '1';
             document.getElementById('otherCosts').value = 0;
 
-            calculate();
+            document.getElementById('driverPdRate').value = 0;
+            document.getElementById('driverHtRate').value = 0;
+            document.getElementById('driverPdBill').checked = false;
+            document.getElementById('driverHtBill').checked = false;
+
+            refreshDays();
             showToast('Valores restablecidos a la configuración inicial');
         }
 
@@ -1636,7 +3262,8 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             const m = calculate();
 
             let transportIncText = (m.incBusTotal > 0 ? `• Pasajes de bus reconocidos: ${formatCOP(m.incBusTotal)}\n` : '') +
-                                   (m.incTransportTotal > 0 ? `• Transporte / Conductor reconocido: ${formatCOP(m.incTransportTotal)}\n` : '');
+                                   (m.incTransportTotal > 0 ? `• Transporte / Conductor reconocido: ${formatCOP(m.incTransportTotal)}\n` : '') +
+                                   (m.driverBilledTotal > 0 ? `• Viáticos/hospedaje del conductor reconocidos: ${formatCOP(m.driverBilledTotal)}\n` : '');
 
             const text = `📋 *COTIZACIÓN RUTA VALIDACIÓN AUTOCLAVES - CASANARE*\n` +
                          `*INGRESOS:*\n` +
@@ -1647,11 +3274,15 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                          `• *Total Ingresos:* ${formatCOP(m.grossIncome)}\n\n` +
                          `*TRANSPORTE POR DÍA:*\n` +
                          `• Día 1 (Orocué): ${m.d1.title} (${m.d1.sub}) — ${formatCOP(m.d1.transportCost)}\n` +
-                         `• Día 2 (Norte): ${m.d2.title} (${m.d2.sub}) — ${formatCOP(m.d2.transportCost)}\n` +
+                         m.slots.filter(s => s.key !== 1).map(s => {
+                             const dd = m.dmAll[s.key];
+                             return `• ${s.label} (${s.place}): ${dd.title} (${dd.sub}) — ${formatCOP(dd.transportCost)}\n`;
+                         }).join('') +
                          `• Combustible Total: ${formatCOP(m.totalFuelCost)}\n\n` +
                          `*OTROS GASTOS OPERATIVOS:*\n` +
                          `• Alimentación real: ${formatCOP(m.totalPerDiem)}\n` +
                          `• Hospedaje real: ${formatCOP(m.totalHotel)}\n` +
+                         (m.driverCostsTotal > 0 ? `• Conductor (viáticos/hospedaje): ${formatCOP(m.driverCostsTotal)} — ${m.driverBilledTotal > 0 ? 'incluido en la cotización' : 'lo asumo yo'}\n` : '') +
                          `• *Total Costos Viaje:* ${formatCOP(m.totalTripCost)}\n` +
                          `----------------------------------\n` +
                          `💰 *UTILIDAD NETA LIBRE:* ${formatCOP(m.netProfit)} (Margen ${m.marginPercent}%)`;
@@ -1706,18 +3337,6 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             document.body.classList.remove('quote-open');
         }
 
-        function copyQuoteText() {
-            const sheet = document.getElementById('quote-sheet');
-            const text = sheet ? sheet.innerText.replace(/\n{3,}/g, '\n\n').trim() : '';
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text)
-                    .then(() => showToast('Cotización copiada. Pégala en WhatsApp o en un correo'))
-                    .catch(() => copyToClipboardText(text, 'Cotización copiada'));
-            } else {
-                copyToClipboardText(text, 'Cotización copiada');
-            }
-        }
-
         function printQuote() {
             try { window.print(); }
             catch (e) { showToast('No se pudo abrir el diálogo de impresión'); }
@@ -1738,11 +3357,11 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
 
             // Líneas de la cotización (solo lo que se le cobra al cliente)
             const items = [];
-            const cities = [['orocue', 'Orocué'], ['sacama', 'Sácama'], ['salina', 'La Salina']]
-                .filter(([k]) => getElementChecked(`city-${k}`, true));
-            const fee = Math.max(0, getInputValue('feePerCity', 0));
-            cities.forEach(([, name]) => {
-                items.push({ desc: `Validación de autoclave — Hospital de ${name}`, qty: 1, unit: fee });
+            const cities = [['orocue', 'Hospital de Orocué'], ['sacama', 'Hospital de Sácama'], ['salina', 'Hospital de La Salina'], ['bocas', 'Bocas del Pauto']]
+                .filter(([k]) => getElementChecked(`city-${k}`, k !== 'bocas'));
+            cities.forEach(([k, name]) => {
+                const fee = Math.max(0, getInputValue(`fee-${k}`, 0));
+                items.push({ desc: `Validación de autoclave — ${name}`, qty: 1, unit: fee });
             });
 
             if (m.incPerDiemTotal > 0) {
@@ -1755,15 +3374,20 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             }
             if (m.incBusTotal > 0) {
                 const dd = [];
-                if (m.d1.mode === 'bus') dd.push('Día 1');
-                if (m.d2.mode === 'bus') dd.push('Día 2');
+                m.slots.forEach(s => { if (m.dmAll[s.key].mode === 'bus') dd.push(m.L[s.key]); });
                 items.push({ desc: `Transporte terrestre — pasajes de bus (${dd.join(' y ')})`, qty: 1, unit: m.incBusTotal });
             }
             if (m.incTransportTotal > 0) {
                 const dd = [];
-                if (m.d1.mode !== 'bus') dd.push('Día 1');
-                if (m.d2.mode !== 'bus') dd.push('Día 2');
+                m.slots.forEach(s => { const d = m.dmAll[s.key]; if (d.mode !== 'bus' && d.mode !== 'none') dd.push(m.L[s.key]); });
                 items.push({ desc: `Transporte terrestre — vehículo (${dd.join(' y ')})`, qty: 1, unit: m.incTransportTotal });
+            }
+
+            if (m.driverPdBill && m.driverPdTotal > 0) {
+                items.push({ desc: 'Viáticos (alimentación) del conductor (por día)', qty: m.driverPdCount, unit: m.driverPdRate });
+            }
+            if (m.driverHtBill && m.driverHtTotal > 0) {
+                items.push({ desc: 'Hospedaje del conductor (por noche)', qty: m.driverHtCount, unit: m.driverHtRate });
             }
 
             const subtotal = items.reduce((acc, it) => acc + it.qty * it.unit, 0);
@@ -1900,6 +3524,16 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
 
             const bestProfit = plans.length ? Math.max(...plans.map(p => p.summary.netProfit)) : null;
 
+            // Celda de un destino: suma el primer y el segundo día
+            const stopCell = (first, second, emptyText) => {
+                if (!first || first.mode === 'none') return `<span class="text-slate-400">${emptyText}</span>`;
+                const extra = second && second.mode !== 'none';
+                const total = first.dayTotal + (extra ? second.dayTotal : 0);
+                return `${escapeHTML(first.shortName)}`
+                    + (extra ? `<span class="block text-xs text-slate-500">+ 2.º día: ${escapeHTML(second.shortName)}</span>` : '')
+                    + `<span class="block text-xs text-slate-500">${formatCOP(total)}</span>`;
+            };
+
             body.innerHTML = plans.map(p => {
                 const s = p.summary;
                 const isBest = plans.length > 1 && s.netProfit === bestProfit;
@@ -1910,14 +3544,10 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                             <span class="font-bold text-slate-900">${escapeHTML(p.name)}</span>
                             ${isBest ? '<span class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Más rentable</span>' : ''}
                         </td>
-                        <td class="py-3.5 px-4 text-slate-700">
-                            ${escapeHTML(s.d1.shortName)}
-                            <span class="block text-xs text-slate-500">${formatCOP(s.d1.dayTotal)}</span>
-                        </td>
-                        <td class="py-3.5 px-4 text-slate-700">
-                            ${escapeHTML(s.d2.shortName)}
-                            <span class="block text-xs text-slate-500">${formatCOP(s.d2.dayTotal)}</span>
-                        </td>
+                        <td class="py-3.5 px-4 text-slate-700">${stopCell(s.d1, s.d5, '—')}</td>
+                        <td class="py-3.5 px-4 text-slate-700">${stopCell(s.d2, s.d6, '—')}</td>
+                        <td class="py-3.5 px-4 text-slate-700">${stopCell(s.d4, s.d7, '—')}</td>
+                        <td class="py-3.5 px-4 text-slate-700">${stopCell(s.d3, s.d8, 'No incluido')}</td>
                         <td class="py-3.5 px-4 text-right font-semibold text-slate-900">${formatCOP(s.grossIncome)}</td>
                         <td class="py-3.5 px-4 text-right font-semibold text-slate-900">${formatCOP(s.totalTripCost)}</td>
                         <td class="py-3.5 px-4 text-right font-extrabold ${profitClass}">
@@ -1943,8 +3573,10 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             const s = p.summary;
             switch (key) {
                 case 'name': return p.name.toLowerCase();
-                case 'd1': return s.d1.dayTotal;
-                case 'd2': return s.d2.dayTotal;
+                case 'd1': return s.d1.dayTotal + ((s.d5 && s.d5.dayTotal) || 0);
+                case 'd2': return s.d2.dayTotal + ((s.d6 && s.d6.dayTotal) || 0);
+                case 'd3': return (s.d3 ? s.d3.dayTotal : 0) + ((s.d8 && s.d8.dayTotal) || 0);
+                case 'd4': return (s.d4 ? s.d4.dayTotal : 0) + ((s.d7 && s.d7.dayTotal) || 0);
                 case 'income': return s.grossIncome;
                 case 'cost': return s.totalTripCost;
                 case 'profit': return s.netProfit;
@@ -1970,7 +3602,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
                 state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
             } else {
                 state.sortKey = key;
-                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' ? 'asc' : 'desc';
+                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' || key === 'd3' || key === 'd4' ? 'asc' : 'desc';
             }
             renderPlans();
         }
@@ -1979,7 +3611,7 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             const key = document.getElementById('sortSelect').value;
             state.sortKey = key;
             if (key !== 'order') {
-                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' ? 'asc' : 'desc';
+                state.sortDir = key === 'name' || key === 'cost' || key === 'd1' || key === 'd2' || key === 'd3' || key === 'd4' ? 'asc' : 'desc';
             }
             renderPlans();
         }
@@ -2032,12 +3664,13 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             // 2. Composición de gastos (barras apiladas)
             const parts = p => {
                 const s = p.summary;
-                const transport = Math.max(0, s.totalTripCost - s.totalFuelCost - s.totalPerDiem - s.totalHotel - s.otherCosts);
+                const transport = Math.max(0, s.totalTripCost - s.totalFuelCost - s.totalPerDiem - s.totalHotel - s.otherCosts - (s.driverCostsTotal || 0));
                 return [
                     ['Transporte', transport, 'bg-indigo-500'],
                     ['Combustible', s.totalFuelCost, 'bg-amber-500'],
                     ['Alimentación', s.totalPerDiem, 'bg-orange-400'],
                     ['Hospedaje', s.totalHotel, 'bg-teal-500'],
+                    ['Conductor', s.driverCostsTotal || 0, 'bg-sky-500'],
                     ['Otros', s.otherCosts, 'bg-slate-400']
                 ];
             };
@@ -2075,9 +3708,8 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         }
 
         // Calcular al cargar para que los totales reflejen los valores iniciales
-        calculate();
+        refreshDays();
         renderPlans();
     </script>
-</div>
-
-</body></html>
+</body>
+</html>
