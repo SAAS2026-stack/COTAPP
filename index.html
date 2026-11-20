@@ -2005,6 +2005,23 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Respaldo: guardado automático y copia -->
+                        <div class="mt-5 pt-4 border-t border-slate-200 no-print">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Respaldo de tus datos</label>
+                            <p class="text-xs text-slate-500 mb-2">Todo se guarda solo en este navegador (<span id="autosave-status">sin guardar aún</span>). Usa la copia para pasarlo a otro dispositivo o como respaldo.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" onclick="exportBackup()" class="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl transition">Descargar copia (.json)</button>
+                                <button type="button" onclick="copyBackup()" class="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl transition">Copiar copia como texto</button>
+                                <label class="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl transition cursor-pointer">Cargar archivo
+                                    <input type="file" accept=".json,application/json" class="hidden" onchange="importBackupFile(this)"></label>
+                                <button type="button" onclick="toggleBackupPaste()" class="px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl transition">Pegar texto</button>
+                            </div>
+                            <div id="backup-paste" class="hidden mt-2">
+                                <textarea id="backup-text" rows="3" placeholder="Pega aquí el texto de la copia..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                                <button type="button" onclick="importBackupText()" class="mt-1 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition">Cargar copia</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -3063,7 +3080,13 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
         function loadPlanToEditor(planId) {
             const plan = state.savedPlans.find(p => p.id === planId);
             if (!plan) return;
-            const c = plan.config;
+            applyConfig(plan.config);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast(`Plan "${plan.name}" cargado en el editor`);
+        }
+
+        // Aplica una configuración completa a los campos del editor
+        function applyConfig(c) {
 
             ['orocue', 'sacama', 'salina', 'bocas'].forEach(k => {
                 document.getElementById(`fee-${k}`).value = (c.fees && c.fees[k] !== undefined) ? c.fees[k] : 350000;
@@ -3128,8 +3151,6 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             document.getElementById('otherCosts').value = c.otherCosts;
 
             refreshDays();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast(`Plan "${plan.name}" cargado en el editor`);
         }
 
         // Restablecer valores por defecto
@@ -3707,9 +3728,94 @@ Forma de pago y fechas de ejecución a convenir con el cliente.</textarea></labe
             }).join('');
         }
 
+        // ---------- Guardado automático y respaldo ----------
+        const STORE_KEY = 'planificador-autoclaves-casanare-v1';
+        const QUOTE_FIELDS = ['q-issuer', 'q-issuer-id', 'q-issuer-contact', 'q-client', 'q-client-id', 'q-client-contact', 'q-validity', 'q-iva', 'q-scope', 'q-conditions'];
+
+        function buildBackup() {
+            const quote = {};
+            QUOTE_FIELDS.forEach(id => { const el = document.getElementById(id); if (el) quote[id] = el.value; });
+            return {
+                app: 'planificador-autoclaves-casanare', version: 1, savedAt: new Date().toISOString(),
+                config: captureCurrentSnapshot('actual').config,
+                plans: state.savedPlans, quote
+            };
+        }
+
+        function restoreBackup(data) {
+            if (!data || !data.config) throw new Error('formato');
+            applyConfig(data.config);
+            state.savedPlans = Array.isArray(data.plans) ? data.plans : [];
+            Object.keys(data.quote || {}).forEach(id => { const el = document.getElementById(id); if (el) el.value = data.quote[id]; });
+            renderPlans();
+        }
+
+        function setAutosaveStatus(t) { const el = document.getElementById('autosave-status'); if (el) el.textContent = t; }
+
+        function autosaveNow() {
+            try {
+                localStorage.setItem(STORE_KEY, JSON.stringify(buildBackup()));
+                setAutosaveStatus('guardado ' + new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }));
+            } catch (e) { setAutosaveStatus('no disponible en este navegador'); }
+        }
+
+        let autosaveTimer = null;
+        function scheduleAutosave() {
+            clearTimeout(autosaveTimer);
+            autosaveTimer = setTimeout(autosaveNow, 400);
+        }
+
+        function backupJSON() { return JSON.stringify(buildBackup(), null, 1); }
+
+        function exportBackup() {
+            const blob = new Blob([backupJSON()], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'planificador-casanare-' + new Date().toISOString().slice(0, 10) + '.json';
+            document.body.appendChild(a); a.click(); a.remove();
+            showToast('Copia descargada. Si no se descargó, usa "Copiar copia como texto"');
+        }
+
+        function copyBackup() { copyToClipboardText(backupJSON(), 'Copia copiada. Guárdala en tus notas o pégala en otro dispositivo'); }
+
+        function importBackupText() {
+            try {
+                restoreBackup(JSON.parse(document.getElementById('backup-text').value));
+                autosaveNow();
+                document.getElementById('backup-text').value = '';
+                document.getElementById('backup-paste').classList.add('hidden');
+                showToast('Copia cargada');
+            } catch (e) { showToast('El texto no es una copia válida'); }
+        }
+
+        function importBackupFile(inp) {
+            const f = inp.files && inp.files[0];
+            if (!f) return;
+            const r = new FileReader();
+            r.onload = () => {
+                try { restoreBackup(JSON.parse(r.result)); autosaveNow(); showToast('Copia cargada'); }
+                catch (e) { showToast('El archivo no es una copia válida'); }
+                inp.value = '';
+            };
+            r.readAsText(f);
+        }
+
+        function toggleBackupPaste() { document.getElementById('backup-paste').classList.toggle('hidden'); }
+
         // Calcular al cargar para que los totales reflejen los valores iniciales
         refreshDays();
         renderPlans();
+
+        // Recuperar lo guardado en este navegador
+        try {
+            const saved = localStorage.getItem(STORE_KEY);
+            if (saved) {
+                restoreBackup(JSON.parse(saved));
+                setAutosaveStatus('recuperado');
+            }
+        } catch (e) { /* sin almacenamiento o datos dañados: se usan los valores iniciales */ }
+
+        ['input', 'change', 'click'].forEach(ev => document.addEventListener(ev, scheduleAutosave, true));
     </script>
 </body>
 </html>
